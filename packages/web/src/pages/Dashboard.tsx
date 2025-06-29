@@ -92,126 +92,47 @@ const Dashboard: React.FC = () => {
       <div className="dashboard__content">
         {/* Quick Actions Section */}
         <section className="dashboard__quick-actions">
-          <h2 className="dashboard__section-title">{t('quickActions.title')}</h2>
           <QuickActionGrid />
         </section>
 
-        {/* Stats Overview */}
+        {/* At-a-Glance Summary */}
         {stats && (
-          <section className="dashboard__stats">
-            <h2 className="dashboard__section-title">{t('dashboard.todayStats')}</h2>
-            <div className="stats-grid">
-              <div className="stat-card stat-card--feed">
-                <div className="stat-card__icon">🍼</div>
-                <div className="stat-card__content">
-                  <span className="stat-card__label">{t('dashboard.stats.totalFeeds')}</span>
-                  <span className="stat-card__value">{stats.totalFeeds}</span>
-                  {stats.lastFeed && (
-                    <span className="stat-card__time">
-                      {t('dashboard.lastFeed')}: {formatTimeAgo(stats.lastFeed)}
-                    </span>
-                  )}
+          <section className="dashboard__summary">
+            <h2 className="dashboard__section-title">{t('dashboard.atAGlance')}</h2>
+            <div className="summary-grid">
+              <div className="summary-card summary-card--feed">
+                <div className="summary-card__icon">🍼</div>
+                <div className="summary-card__content">
+                  <span className="summary-card__label">{t('dashboard.lastFeed')}</span>
+                  <span className="summary-card__value">
+                    {stats.lastFeed ? formatTimeAgo(stats.lastFeed) : t('dashboard.noData')}
+                  </span>
                 </div>
               </div>
 
-              <div className="stat-card stat-card--sleep">
-                <div className="stat-card__icon">😴</div>
-                <div className="stat-card__content">
-                  <span className="stat-card__label">{t('dashboard.stats.totalSleep')}</span>
-                  <span className="stat-card__value">
-                    {stats.totalSleep > 0 ? formatSleepDuration(stats.totalSleep) : '0h'}
+              <div className="summary-card summary-card--diaper">
+                <div className="summary-card__icon">🚼</div>
+                <div className="summary-card__content">
+                  <span className="summary-card__label">{t('dashboard.lastDiaper')}</span>
+                  <span className="summary-card__value">
+                    {stats.lastDiaper ? formatTimeAgo(stats.lastDiaper) : t('dashboard.noData')}
                   </span>
-                  {stats.lastSleep && (
-                    <span className="stat-card__time">
-                      {t('dashboard.lastSleep')}: {formatTimeAgo(stats.lastSleep)}
-                    </span>
-                  )}
                 </div>
               </div>
 
-              <div className="stat-card stat-card--diaper">
-                <div className="stat-card__icon">🚼</div>
-                <div className="stat-card__content">
-                  <span className="stat-card__label">{t('dashboard.stats.totalDiapers')}</span>
-                  <span className="stat-card__value">
-                    {todayEntries.filter(e => e.type === 'diaper').length}
+              <div className="summary-card summary-card--sleep">
+                <div className="summary-card__icon">😴</div>
+                <div className="summary-card__content">
+                  <span className="summary-card__label">{t('dashboard.sleepStatus')}</span>
+                  <span className="summary-card__value">
+                    {stats.lastSleep ? formatTimeAgo(stats.lastSleep) : t('dashboard.noData')}
                   </span>
-                  {stats.lastDiaper && (
-                    <span className="stat-card__time">
-                      {t('dashboard.lastDiaper')}: {formatTimeAgo(stats.lastDiaper)}
-                    </span>
-                  )}
                 </div>
               </div>
             </div>
           </section>
         )}
 
-        {/* Timeline Chart */}
-        <section className="dashboard__timeline">
-          <h2 className="dashboard__section-title">{t('dashboard.timeline')}</h2>
-          {entriesLoading ? (
-            <div className="dashboard__loading">
-              <div className="loading-spinner"></div>
-              <p>{t('common.loading')}</p>
-            </div>
-          ) : (
-            <TimelineChart 
-              entries={todayEntries} 
-              date={selectedDate}
-              height={300}
-            />
-          )}
-        </section>
-
-        {/* Recent Entries */}
-        {todayEntries.length > 0 && (
-          <section className="dashboard__recent">
-            <h2 className="dashboard__section-title">{t('dashboard.recentEntries')}</h2>
-            <div className="recent-entries">
-              {todayEntries.slice(-5).reverse().map((entry) => (
-                <div key={entry.id} className={`recent-entry recent-entry--${entry.type}`}>
-                  <div className="recent-entry__icon">
-                    {entry.type === 'feed' && '🍼'}
-                    {entry.type === 'diaper' && '🚼'}
-                    {entry.type === 'sleep' && '😴'}
-                  </div>
-                  <div className="recent-entry__content">
-                    <div className="recent-entry__type">
-                      {t(`forms.${entry.type}.title`)}
-                    </div>
-                    <div className="recent-entry__details">
-                      {entry.type === 'feed' && entry.payload.source === 'breast' && (
-                        <span>
-                          {t('forms.feed.sources.breast')}
-                          {entry.payload.duration && ` • ${entry.payload.duration}min`}
-                        </span>
-                      )}
-                      {entry.type === 'feed' && entry.payload.source === 'bottle' && (
-                        <span>
-                          {entry.payload.volume}{entry.payload.unit}
-                        </span>
-                      )}
-                      {entry.type === 'diaper' && (
-                        <span>
-                          {t(`forms.diaper.types.${entry.payload.diaperType}`)}
-                        </span>
-                      )}
-                      {entry.type === 'sleep' && entry.payload.duration && (
-                        <span>
-                          {formatSleepDuration(entry.payload.duration)}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                  <div className="recent-entry__time">
-                    {format(entry.timestamp, 'HH:mm')}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
       </div>
     </div>
   );

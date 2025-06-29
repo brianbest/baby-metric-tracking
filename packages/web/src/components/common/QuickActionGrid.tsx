@@ -3,13 +3,12 @@ import { useTranslation } from 'react-i18next';
 import { EntryType } from '@baby-tracker/shared';
 import { QuickActionButton } from './QuickActionButton';
 import { EntryModal } from '../forms';
-import { useBabyStore, useEntryStore } from '../../stores';
+import { useBabyStore } from '../../stores';
 import './QuickActionGrid.css';
 
 export const QuickActionGrid: React.FC = () => {
   const { t } = useTranslation();
   const { getActiveBaby } = useBabyStore();
-  const { lastEntry } = useEntryStore();
   
   const [modalState, setModalState] = useState<{
     isOpen: boolean;
@@ -66,14 +65,6 @@ export const QuickActionGrid: React.FC = () => {
         ))}
       </div>
 
-      {/* Repeat Last Entry */}
-      {lastEntry && activeBaby && (
-        <div className="quick-action-grid__repeat">
-          <button className="repeat-last-btn">
-            ⟲ {t('quickActions.repeatLast')}
-          </button>
-        </div>
-      )}
 
       {/* Entry Modal */}
       {modalState.entryType && (

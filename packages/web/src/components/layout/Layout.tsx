@@ -13,6 +13,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   const navItems = [
     { path: '/', key: 'dashboard', icon: '📊' },
+    { path: '/reports', key: 'reports', icon: '📈' },
     { path: '/babies', key: 'babies', icon: '⏰' },
     { path: '/settings', key: 'settings', icon: '⚙️' },
   ];
