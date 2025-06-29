@@ -200,6 +200,21 @@
     "kg": "kg",
     "lbs": "lbs"
   },
+  "auth": {
+    "signIn": "Sign In to Baby Metrics",
+    "signInDescription": "Sign in or sign up to start tracking your baby's metrics.",
+    "emailAddress": "Email Address",
+    "sendMagicLink": "Send Magic Link",
+    "sendingLink": "Sending link...",
+    "checkEmail": "Check Your Email",
+    "checkEmailMessage": "We have sent a magic link to {{email}}.",
+    "checkEmailNote": "Please check your email and follow the link to sign in.",
+    "tryDifferentEmail": "Try a different email",
+    "continueWithGoogle": "Continue with Google",
+    "continueWithApple": "Continue with Apple",
+    "orContinueWith": "or continue with",
+    "emailPlaceholder": "Enter your email"
+  },
   "time": {
     "am": "AM",
     "pm": "PM",

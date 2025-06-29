@@ -149,6 +149,21 @@
     "kg": "千克",
     "lbs": "磅"
   },
+  "auth": {
+    "signIn": "登录 Baby Metrics",
+    "signInDescription": "登录或注册，开始记录宝宝的指标。",
+    "emailAddress": "邮箱地址",
+    "sendMagicLink": "发送魔术链接",
+    "sendingLink": "发送链接中...",
+    "checkEmail": "检查你的电子邮件",
+    "checkEmailMessage": "我们已将魔术链接发送至 {{email}}。",
+    "checkEmailNote": "请检查你的电子邮件，并按链接进行登录。",
+    "tryDifferentEmail": "尝试其他电子邮件",
+    "continueWithGoogle": "继续使用 Google",
+    "continueWithApple": "继续使用 Apple",
+    "orContinueWith": "或继续使用",
+    "emailPlaceholder": "输入您的电子邮件"
+  },
   "time": {
     "am": "上午",
     "pm": "下午",
