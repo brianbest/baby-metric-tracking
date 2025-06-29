@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { User, Session, AuthError } from '@supabase/supabase-js';
 import { supabase } from '../lib/supabase';
+import { dataService } from '../lib/dataService';
 
 interface AuthState {
   user: User | null;
@@ -71,6 +72,9 @@ export const useAuthStore = create<AuthState>()(
           if (error) throw error;
           
           set({ user: null, session: null, loading: false });
+          
+          // Clear user from data service
+          dataService.setUser(null);
         } catch (error) {
           const authError = error as AuthError;
           set({ error: authError.message, loading: false });
@@ -92,6 +96,9 @@ export const useAuthStore = create<AuthState>()(
             user: session?.user || null, 
             loading: false 
           });
+          
+          // Update data service with user
+          dataService.setUser(session?.user || null);
           
           // Listen for auth changes
           supabase.auth.onAuthStateChange(async (event, session) => {
