@@ -1,20 +1,41 @@
 {
   "name": "baby-metric-tracking",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Zero-friction baby metrics tracking for families",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "turbo run dev --parallel",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "format": "prettier --write .",
+    "storybook": "turbo run storybook",
+    "storybook:test": "turbo run storybook:test",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0",
+    "prettier": "^3.2.5",
+    "turbo": "^1.13.4"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,css,md}": [
+      "prettier --write"
+    ]
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/brianbest/baby-metric-tracking.git"
   },
-  "keywords": [],
-  "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/brianbest/baby-metric-tracking/issues"
-  },
-  "homepage": "https://github.com/brianbest/baby-metric-tracking#readme"
+  "dependencies": {
+    "minimatch": "^10.0.3"
+  }
 }

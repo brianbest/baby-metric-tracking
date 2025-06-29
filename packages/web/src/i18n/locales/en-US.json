@@ -1,0 +1,197 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "confirm": "Confirm",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "week": "Week",
+    "month": "Month",
+    "entry": "Entry"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "babies": "Babies",
+    "settings": "Settings"
+  },
+  "dashboard": {
+    "title": "Daily Dashboard",
+    "noData": "No entries for today",
+    "noDataToday": "No entries recorded today",
+    "addFirstEntry": "Add your first entry using the quick actions above",
+    "timeline": "24-Hour Timeline",
+    "activities": "Activities",
+    "todayStats": "Today's Overview",
+    "recentEntries": "Recent Entries", 
+    "lastFeed": "Last feed",
+    "lastSleep": "Last sleep",
+    "lastDiaper": "Last diaper",
+    "entriesCount_one": "{{count}} entry today",
+    "entriesCount_other": "{{count}} entries today",
+    "stats": {
+      "totalFeeds": "Total Feeds",
+      "totalSleep": "Total Sleep",
+      "totalDiapers": "Total Diapers",
+      "lastFeed": "Last Feed",
+      "lastSleep": "Last Sleep",
+      "lastDiaper": "Last Diaper"
+    }
+  },
+  "quickActions": {
+    "title": "Quick Actions",
+    "repeatLast": "Repeat Last",
+    "startSleep": "Start Sleep",
+    "endSleep": "End Sleep",
+    "feedBottle": "Bottle Feed",
+    "feedBreast": "Breastfeed",
+    "diaperWet": "Wet Diaper",
+    "diaperDirty": "Dirty Diaper"
+  },
+  "forms": {
+    "feed": {
+      "title": "Feed Entry",
+      "source": "Source",
+      "volume": "Volume",
+      "duration": "Duration",
+      "side": "Side",
+      "formulaType": "Formula Type",
+      "bottleType": "Bottle Type",
+      "location": "Location",
+      "notes": "Notes",
+      "locationPlaceholder": "Living room, nursery...",
+      "notesPlaceholder": "Additional notes...",
+      "volumeRequired": "Volume is required for bottle feeding",
+      "durationRequired": "Duration is required for breastfeeding", 
+      "volumePositive": "Volume must be greater than 0",
+      "durationPositive": "Duration must be greater than 0",
+      "sources": {
+        "breast": "Breast",
+        "bottle": "Bottle", 
+        "solid": "Solid Food"
+      },
+      "sides": {
+        "left": "Left",
+        "right": "Right",
+        "both": "Both"
+      },
+      "formulaTypes": {
+        "formula": "Formula",
+        "breast_milk": "Breast Milk",
+        "mixed": "Mixed"
+      }
+    },
+    "diaper": {
+      "title": "Diaper Entry",
+      "type": "Type",
+      "color": "Color",
+      "consistency": "Consistency",
+      "size": "Size",
+      "notes": "Notes",
+      "notesPlaceholder": "Additional notes...",
+      "typeRequired": "Diaper type is required",
+      "colorRequired": "Color is required for dirty diapers",
+      "types": {
+        "wet": "Wet",
+        "dirty": "Dirty",
+        "mixed": "Mixed",
+        "dry": "Dry"
+      },
+      "colors": {
+        "yellow": "Yellow",
+        "brown": "Brown",
+        "green": "Green",
+        "red": "Red",
+        "black": "Black",
+        "other": "Other"
+      },
+      "consistencies": {
+        "liquid": "Liquid",
+        "soft": "Soft",
+        "formed": "Formed",
+        "hard": "Hard"
+      }
+    },
+    "sleep": {
+      "title": "Sleep Entry",
+      "startTime": "Start Time",
+      "endTime": "End Time",
+      "duration": "Duration",
+      "quality": "Quality",
+      "location": "Location",
+      "locationPlaceholder": "Crib, bed, stroller...",
+      "isNap": "This is a nap",
+      "inProgress": "Sleep in progress",
+      "notes": "Notes",
+      "notesPlaceholder": "Sleep quality, environment...",
+      "startTimeRequired": "Start time is required",
+      "endTimeRequired": "End time is required",
+      "endTimeAfterStart": "End time must be after start time",
+      "qualityLabels": {
+        "poor": "Poor",
+        "fair": "Fair", 
+        "good": "Good",
+        "veryGood": "Very Good",
+        "excellent": "Excellent"
+      }
+    }
+  },
+  "baby": {
+    "name": "Name",
+    "birthDate": "Birth Date",
+    "preferredUnits": "Preferred Units",
+    "addBaby": "Add Baby",
+    "addFirstBaby": "Add your first baby to get started",
+    "selectBaby": "Select Baby",
+    "selectBabyToContinue": "Please select a baby to continue",
+    "noBabies": "No babies added yet",
+    "units": {
+      "metric": "Metric (ml, cm, kg)",
+      "imperial": "Imperial (oz, in, lbs)"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "theme": "Theme",  
+    "units": "Units",
+    "exportData": "Export Data",
+    "importData": "Import Data",
+    "clearData": "Clear All Data",
+    "themes": {
+      "dark": "Dark",
+      "light": "Light"
+    },
+    "languages": {
+      "en-US": "English",
+      "zh-CN": "中文"
+    }
+  },
+  "units": {
+    "ml": "ml",
+    "oz": "oz",
+    "minutes": "minutes",
+    "hours": "hours",
+    "cm": "cm",
+    "in": "in",
+    "kg": "kg",
+    "lbs": "lbs"
+  },
+  "time": {
+    "am": "AM",
+    "pm": "PM",
+    "now": "Now",
+    "ago": "ago",
+    "minutesAgo": "{{count}} minute ago",
+    "minutesAgo_plural": "{{count}} minutes ago",
+    "hoursAgo": "{{count}} hour ago", 
+    "hoursAgo_plural": "{{count}} hours ago"
+  }
+} 

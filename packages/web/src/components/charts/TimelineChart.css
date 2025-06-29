@@ -1,0 +1,130 @@
+/* Timeline Chart */
+.timeline-chart {
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Header */
+.timeline-chart__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.timeline-chart__title {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.timeline-chart__summary {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.timeline-chart__count {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  background-color: var(--color-bg-tertiary);
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+}
+
+.timeline-chart__empty {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+/* Chart Container */
+.timeline-chart__container {
+  position: relative;
+  width: 100%;
+  min-height: 200px;
+}
+
+/* Placeholder */
+.timeline-chart__placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  color: var(--color-text-secondary);
+}
+
+.timeline-chart__placeholder-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.timeline-chart__placeholder p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+
+.timeline-chart__placeholder-hint {
+  font-size: 0.875rem !important;
+  color: var(--color-text-tertiary) !important;
+}
+
+/* Chart.js Overrides */
+.timeline-chart .chartjs-render-monitor {
+  border-radius: 0.5rem;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .timeline-chart {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .timeline-chart__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  
+  .timeline-chart__title {
+    font-size: 1rem;
+  }
+  
+  .timeline-chart__container {
+    min-height: 250px;
+  }
+  
+  .timeline-chart__placeholder-icon {
+    font-size: 2.5rem;
+  }
+}
+
+/* High Contrast Support */
+@media (prefers-contrast: high) {
+  .timeline-chart {
+    border-width: 2px;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .timeline-chart {
+    break-inside: avoid;
+    border: 1px solid #000;
+    background-color: #fff;
+  }
+  
+  .timeline-chart__placeholder {
+    display: none;
+  }
+} 

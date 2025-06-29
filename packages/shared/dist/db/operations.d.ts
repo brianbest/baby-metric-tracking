@@ -1,0 +1,14 @@
+import type { Baby, Entry, CreateEntry } from '../types';
+export declare function getAllBabies(): Promise<Baby[]>;
+export declare function getBabyById(id: string): Promise<Baby | null>;
+export declare function createBaby(babyData: Omit<Baby, 'id' | 'createdAt' | 'updatedAt'>): Promise<Baby>;
+export declare function updateBaby(id: string, updates: Partial<Omit<Baby, 'id' | 'createdAt'>>): Promise<void>;
+export declare function deleteBaby(id: string): Promise<void>;
+export declare function getAllEntries(babyId: string): Promise<Entry[]>;
+export declare function getEntriesByDateRange(babyId: string, startDate: Date, endDate: Date): Promise<Entry[]>;
+export declare function getEntryById(id: string): Promise<Entry | null>;
+export declare function createEntry(entryData: CreateEntry): Promise<Entry>;
+export declare function updateEntry(id: string, updates: Partial<Omit<Entry, 'id' | 'createdAt'>>): Promise<void>;
+export declare function deleteEntry(id: string): Promise<void>;
+export declare function getLatestEntry(babyId: string): Promise<Entry | null>;
+export declare function getActiveSleepEntry(babyId: string): Promise<Entry | null>;

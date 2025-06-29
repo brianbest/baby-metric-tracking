@@ -1,0 +1,162 @@
+{
+  "common": {
+    "loading": "加载中...",
+    "error": "发生错误",
+    "save": "保存",
+    "cancel": "取消",
+    "delete": "删除",
+    "edit": "编辑",
+    "add": "添加",
+    "close": "关闭",
+    "back": "返回",
+    "next": "下一步",
+    "confirm": "确认",
+    "today": "今天",
+    "yesterday": "昨天",
+    "week": "本周",
+    "month": "本月"
+  },
+  "navigation": {
+    "dashboard": "仪表板",
+    "babies": "宝宝",
+    "settings": "设置"
+  },
+  "dashboard": {
+    "title": "每日仪表板",
+    "noData": "今天暂无记录",
+    "timeline": "24小时时间线",
+    "stats": {
+      "totalFeeds": "总喂养次数",
+      "totalSleep": "总睡眠时间",
+      "lastFeed": "上次喂养",
+      "lastSleep": "上次睡眠",
+      "lastDiaper": "上次换尿布"
+    }
+  },
+  "quickActions": {
+    "title": "快捷操作",
+    "repeatLast": "重复上次",
+    "startSleep": "开始睡眠",
+    "endSleep": "结束睡眠",
+    "feedBottle": "奶瓶喂养",
+    "feedBreast": "母乳喂养",
+    "diaperWet": "湿尿布",
+    "diaperDirty": "脏尿布"
+  },
+  "forms": {
+    "feed": {
+      "title": "喂养记录",
+      "source": "来源",
+      "volume": "容量",
+      "duration": "持续时间",
+      "side": "侧边",
+      "formulaType": "配方类型",
+      "bottleType": "奶瓶类型",
+      "location": "位置",
+      "notes": "备注",
+      "sources": {
+        "breast": "母乳",
+        "bottle": "奶瓶",
+        "solid": "固体食物"
+      },
+      "sides": {
+        "left": "左侧",
+        "right": "右侧",
+        "both": "双侧"
+      },
+      "formulaTypes": {
+        "formula": "配方奶",
+        "breast_milk": "母乳",
+        "mixed": "混合"
+      }
+    },
+    "diaper": {
+      "title": "换尿布记录",
+      "type": "类型",
+      "color": "颜色",
+      "consistency": "稠度",
+      "size": "尺寸",
+      "notes": "备注",
+      "types": {
+        "wet": "湿的",
+        "dirty": "脏的",
+        "mixed": "混合",
+        "dry": "干的"
+      },
+      "colors": {
+        "yellow": "黄色",
+        "brown": "棕色",
+        "green": "绿色",
+        "red": "红色",
+        "black": "黑色",
+        "other": "其他"
+      },
+      "consistencies": {
+        "liquid": "液体",
+        "soft": "软的",
+        "formed": "成型",
+        "hard": "硬的"
+      }
+    },
+    "sleep": {
+      "title": "睡眠记录",
+      "startTime": "开始时间",
+      "endTime": "结束时间",
+      "duration": "持续时间",
+      "quality": "质量",
+      "location": "位置",
+      "isNap": "这是小憩",
+      "inProgress": "睡眠进行中",
+      "notes": "备注"
+    }
+  },
+  "baby": {
+    "name": "姓名",
+    "birthDate": "出生日期",
+    "preferredUnits": "首选单位",
+    "addBaby": "添加宝宝",
+    "selectBaby": "选择宝宝",
+    "noBabies": "还没有添加宝宝",
+    "units": {
+      "metric": "公制 (毫升, 厘米, 千克)",
+      "imperial": "英制 (盎司, 英寸, 磅)"
+    }
+  },
+  "settings": {
+    "title": "设置",
+    "language": "语言",
+    "theme": "主题",
+    "units": "单位",
+    "exportData": "导出数据",
+    "importData": "导入数据",
+    "clearData": "清除所有数据",
+    "themes": {
+      "dark": "深色",
+      "light": "浅色"
+    },
+    "languages": {
+      "en-US": "English",
+      "zh-CN": "中文"
+    }
+  },
+  "units": {
+    "ml": "毫升",
+    "oz": "盎司",
+    "minutes": "分钟",
+    "hours": "小时",
+    "cm": "厘米",
+    "in": "英寸",
+    "kg": "千克",
+    "lbs": "磅"
+  },
+  "time": {
+    "am": "上午",
+    "pm": "下午",
+    "now": "现在",
+    "ago": "前",
+    "minutesAgo": "{{count}} 分钟前",
+    "minutesAgo_plural": "{{count}} 分钟前",
+    "hoursAgo": "{{count}} 小时前",
+    "hoursAgo_plural": "{{count}} 小时前"
+  }
+} 
