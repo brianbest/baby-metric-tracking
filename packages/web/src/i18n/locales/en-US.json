@@ -215,6 +215,23 @@
     "orContinueWith": "or continue with",
     "emailPlaceholder": "Enter your email"
   },
+  "realtime": {
+    "status": {
+      "connecting": "Connecting...",
+      "connected": "Connected",
+      "disconnected": "Disconnected"
+    },
+    "presence": {
+      "online": "{{count}} caregiver online",
+      "online_plural": "{{count}} caregivers online",
+      "youAreOnline": "You are online"
+    },
+    "notifications": {
+      "newEntry": "New {{type}} entry added",
+      "updatedEntry": "{{type}} entry updated",
+      "deletedEntry": "{{type}} entry deleted"
+    }
+  },
   "time": {
     "am": "AM",
     "pm": "PM",
