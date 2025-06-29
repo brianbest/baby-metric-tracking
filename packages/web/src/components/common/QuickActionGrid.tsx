@@ -33,31 +33,16 @@ export const QuickActionGrid: React.FC = () => {
   const quickActions = [
     {
       type: 'feed' as EntryType,
-      variant: 'bottle',
       icon: '🍼',
-      label: t('quickActions.feedBottle'),
-    },
-    {
-      type: 'feed' as EntryType,
-      variant: 'breast',
-      icon: '🤱',
-      label: t('quickActions.feedBreast'),
+      label: t('quickActions.feed'),
     },
     {
       type: 'diaper' as EntryType,
-      variant: 'wet',
-      icon: '🚼',
-      label: t('quickActions.diaperWet'),
-    },
-    {
-      type: 'diaper' as EntryType,
-      variant: 'dirty',
-      icon: '💩',
-      label: t('quickActions.diaperDirty'),
+      icon: '👶',
+      label: t('quickActions.diaper'),
     },
     {
       type: 'sleep' as EntryType,
-      variant: activeSleepEntry ? 'end' : 'start',
       icon: activeSleepEntry ? '😴' : '🛌',
       label: activeSleepEntry 
         ? t('quickActions.endSleep')
@@ -71,9 +56,8 @@ export const QuickActionGrid: React.FC = () => {
       <div className="quick-action-grid__main">
         {quickActions.map(action => (
           <QuickActionButton
-            key={`${action.type}-${action.variant}`}
+            key={action.type}
             type={action.type}
-            variant={action.variant}
             icon={action.icon}
             label={action.label}
             onClick={() => openModal(action.type)}
@@ -82,11 +66,11 @@ export const QuickActionGrid: React.FC = () => {
         ))}
       </div>
 
-      {/* Repeat Last Entry - TODO: Add RepeatLastButton */}
+      {/* Repeat Last Entry */}
       {lastEntry && activeBaby && (
         <div className="quick-action-grid__repeat">
           <button className="repeat-last-btn">
-            {t('quickActions.repeatLast')}
+            ⟲ {t('quickActions.repeatLast')}
           </button>
         </div>
       )}
@@ -98,13 +82,7 @@ export const QuickActionGrid: React.FC = () => {
           onClose={closeModal}
           entryType={modalState.entryType}
         />
- )}
-      <button
-        className="floating-action-button"
-        onClick={() => openModal('feed')}
-      >
-        +
-      </button>
+      )}
     </div>
   );
 }; 

@@ -15,7 +15,8 @@
     "yesterday": "Yesterday",
     "week": "Week",
     "month": "Month",
-    "entry": "Entry"
+    "entry": "Entry",
+    "optional": "optional"
   },
   "navigation": {
     "dashboard": "Dashboard",
@@ -50,6 +51,9 @@
     "repeatLast": "Repeat Last",
     "startSleep": "Start Sleep",
     "endSleep": "End Sleep",
+    "feed": "Feed",
+    "diaper": "Diaper",
+    "sleep": "Sleep",
     "feedBottle": "Bottle Feed",
     "feedBreast": "Breastfeed",
     "diaperWet": "Wet Diaper",
@@ -86,7 +90,9 @@
         "formula": "Formula",
         "breast_milk": "Breast Milk",
         "mixed": "Mixed"
-      }
+      },
+      "solidDescription": "What did baby eat?",
+      "solidPlaceholder": "Banana, rice cereal, avocado..."
     },
     "diaper": {
       "title": "Diaper Entry",
@@ -140,7 +146,13 @@
         "good": "Good",
         "veryGood": "Very Good",
         "excellent": "Excellent"
-      }
+      },
+      "startSleep": "Start Sleep",
+      "endSleep": "End Sleep",
+      "sleepingFor": "Sleeping for",
+      "sleepStarted": "Sleep started – tap Save when baby wakes",
+      "manualTimes": "Manual times (tap to expand)",
+      "useTimer": "Use timer instead"
     }
   },
   "baby": {

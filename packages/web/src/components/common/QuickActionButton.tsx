@@ -5,7 +5,6 @@ import './QuickActionButton.css';
 
 interface QuickActionButtonProps {
   type: EntryType;
-  variant: string;
   icon: string;
   label: string;
   onClick: () => void;
@@ -15,7 +14,6 @@ interface QuickActionButtonProps {
 
 export const QuickActionButton: React.FC<QuickActionButtonProps> = ({
   type,
-  variant,
   icon,
   label,
   onClick,
@@ -28,14 +26,13 @@ export const QuickActionButton: React.FC<QuickActionButtonProps> = ({
   const handleClick = () => {
     track('quick_action_clicked', {
       entry_type: type,
-      variant,
     });
     onClick();
   };
 
   return (
     <button
-      className={`quick-action-btn quick-action-btn--${type} quick-action-btn--${variant} ${className}`}
+      className={`quick-action-btn quick-action-btn--${type} ${className}`}
       onClick={handleClick}
       disabled={disabled}
       aria-label={label}

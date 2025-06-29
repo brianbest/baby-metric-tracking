@@ -20,7 +20,6 @@ export const DiaperForm: React.FC<DiaperFormProps> = ({
     diaperType: initialData?.payload?.diaperType || 'wet' as DiaperType,
     color: initialData?.payload?.color || 'yellow' as DiaperColor,
     consistency: initialData?.payload?.consistency || 'soft',
-    size: initialData?.payload?.size || '',
     notes: initialData?.notes || '',
   });
 
@@ -61,7 +60,6 @@ export const DiaperForm: React.FC<DiaperFormProps> = ({
         consistency: (formData.diaperType === 'dirty' || formData.diaperType === 'mixed') 
           ? formData.consistency as 'liquid' | 'soft' | 'formed' | 'hard'
           : undefined,
-        size: formData.size || undefined,
       },
     };
 
@@ -86,23 +84,46 @@ export const DiaperForm: React.FC<DiaperFormProps> = ({
       </div>
 
       <div className="entry-form__content">
-        {/* Diaper Type */}
+        {/* Diaper Type - Radio Buttons */}
         <div className="form-group">
-          <label htmlFor="diaperType" className="form-label">
-            {t('forms.diaper.type')} *
-          </label>
-          <select
-            id="diaperType"
-            value={formData.diaperType}
-            onChange={(e) => handleFieldChange('diaperType', e.target.value)}
-            className={`form-select ${errors.diaperType ? 'form-select--error' : ''}`}
-            required
-          >
-            <option value="wet">{t('forms.diaper.types.wet')}</option>
-            <option value="dirty">{t('forms.diaper.types.dirty')}</option>
-            <option value="mixed">{t('forms.diaper.types.mixed')}</option>
-            <option value="dry">{t('forms.diaper.types.dry')}</option>
-          </select>
+          <fieldset className="form-radio-group">
+            <legend className="form-label">{t('forms.diaper.type')}</legend>
+            <div className="form-radio-options">
+              <label className="form-radio">
+                <input
+                  type="radio"
+                  name="diaperType"
+                  value="wet"
+                  checked={formData.diaperType === 'wet'}
+                  onChange={(e) => handleFieldChange('diaperType', e.target.value)}
+                  className="form-radio__input"
+                />
+                <span className="form-radio__label">💧 {t('forms.diaper.types.wet')}</span>
+              </label>
+              <label className="form-radio">
+                <input
+                  type="radio"
+                  name="diaperType"
+                  value="dirty"
+                  checked={formData.diaperType === 'dirty'}
+                  onChange={(e) => handleFieldChange('diaperType', e.target.value)}
+                  className="form-radio__input"
+                />
+                <span className="form-radio__label">💩 {t('forms.diaper.types.dirty')}</span>
+              </label>
+              <label className="form-radio">
+                <input
+                  type="radio"
+                  name="diaperType"
+                  value="mixed"
+                  checked={formData.diaperType === 'mixed'}
+                  onChange={(e) => handleFieldChange('diaperType', e.target.value)}
+                  className="form-radio__input"
+                />
+                <span className="form-radio__label">💧💩 {t('forms.diaper.types.mixed')}</span>
+              </label>
+            </div>
+          </fieldset>
           {errors.diaperType && (
             <span className="form-error" role="alert">
               {errors.diaperType}
@@ -112,84 +133,89 @@ export const DiaperForm: React.FC<DiaperFormProps> = ({
 
         {/* Color - only for dirty/mixed diapers */}
         {showColorAndConsistency && (
-          <>
+          <div className="form-context-section">
             <div className="form-group">
-              <label htmlFor="color" className="form-label">
-                {t('forms.diaper.color')} *
-              </label>
-              <select
-                id="color"
-                value={formData.color}
-                onChange={(e) => handleFieldChange('color', e.target.value)}
-                className={`form-select ${errors.color ? 'form-select--error' : ''}`}
-                required
-              >
-                <option value="yellow">{t('forms.diaper.colors.yellow')}</option>
-                <option value="brown">{t('forms.diaper.colors.brown')}</option>
-                <option value="green">{t('forms.diaper.colors.green')}</option>
-                <option value="red">{t('forms.diaper.colors.red')}</option>
-                <option value="black">{t('forms.diaper.colors.black')}</option>
-                <option value="other">{t('forms.diaper.colors.other')}</option>
-              </select>
+              <fieldset className="form-radio-group">
+                <legend className="form-label">{t('forms.diaper.color')}</legend>
+                <div className="form-color-picker">
+                  <label className="form-color-option">
+                    <input
+                      type="radio"
+                      name="color"
+                      value="yellow"
+                      checked={formData.color === 'yellow'}
+                      onChange={(e) => handleFieldChange('color', e.target.value)}
+                      className="form-color-option__input"
+                    />
+                    <span className="form-color-option__emoji">🟡</span>
+                  </label>
+                  <label className="form-color-option">
+                    <input
+                      type="radio"
+                      name="color"
+                      value="brown"
+                      checked={formData.color === 'brown'}
+                      onChange={(e) => handleFieldChange('color', e.target.value)}
+                      className="form-color-option__input"
+                    />
+                    <span className="form-color-option__emoji">🟤</span>
+                  </label>
+                  <label className="form-color-option">
+                    <input
+                      type="radio"
+                      name="color"
+                      value="green"
+                      checked={formData.color === 'green'}
+                      onChange={(e) => handleFieldChange('color', e.target.value)}
+                      className="form-color-option__input"
+                    />
+                    <span className="form-color-option__emoji">🟢</span>
+                  </label>
+                  <label className="form-color-option">
+                    <input
+                      type="radio"
+                      name="color"
+                      value="red"
+                      checked={formData.color === 'red'}
+                      onChange={(e) => handleFieldChange('color', e.target.value)}
+                      className="form-color-option__input"
+                    />
+                    <span className="form-color-option__emoji">🔴</span>
+                  </label>
+                  <label className="form-color-option">
+                    <input
+                      type="radio"
+                      name="color"
+                      value="black"
+                      checked={formData.color === 'black'}
+                      onChange={(e) => handleFieldChange('color', e.target.value)}
+                      className="form-color-option__input"
+                    />
+                    <span className="form-color-option__emoji">⚫</span>
+                  </label>
+                </div>
+              </fieldset>
               {errors.color && (
                 <span className="form-error" role="alert">
                   {errors.color}
                 </span>
               )}
             </div>
-
-            <div className="form-group">
-              <label htmlFor="consistency" className="form-label">
-                {t('forms.diaper.consistency')}
-              </label>
-              <select
-                id="consistency"
-                value={formData.consistency}
-                onChange={(e) => handleFieldChange('consistency', e.target.value)}
-                className="form-select"
-              >
-                <option value="liquid">{t('forms.diaper.consistencies.liquid')}</option>
-                <option value="soft">{t('forms.diaper.consistencies.soft')}</option>
-                <option value="formed">{t('forms.diaper.consistencies.formed')}</option>
-                <option value="hard">{t('forms.diaper.consistencies.hard')}</option>
-              </select>
-            </div>
-          </>
+          </div>
         )}
 
-        {/* Diaper Size */}
-        <div className="form-group">
-          <label htmlFor="size" className="form-label">
-            {t('forms.diaper.size')}
-          </label>
-          <select
-            id="size"
-            value={formData.size}
-            onChange={(e) => handleFieldChange('size', e.target.value)}
-            className="form-select"
-          >
-            <option value="">Select size</option>
-            <option value="Newborn">Newborn</option>
-            <option value="Size 1">Size 1</option>
-            <option value="Size 2">Size 2</option>
-            <option value="Size 3">Size 3</option>
-            <option value="Size 4">Size 4</option>
-            <option value="Size 5">Size 5</option>
-            <option value="Size 6">Size 6</option>
-          </select>
-        </div>
 
         {/* Notes */}
         <div className="form-group">
           <label htmlFor="notes" className="form-label">
-            {t('forms.diaper.notes')}
+            {t('forms.diaper.notes')} ({t('common.optional')})
           </label>
           <textarea
             id="notes"
             value={formData.notes}
             onChange={(e) => handleFieldChange('notes', e.target.value)}
             className="form-textarea"
-            rows={3}
+            rows={2}
             placeholder={t('forms.diaper.notesPlaceholder')}
           />
         </div>

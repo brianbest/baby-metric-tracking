@@ -4,18 +4,19 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 16px 12px;
-  border: 1px solid var(--color-border);
-  border-radius: 16px;
-  background-color: var(--color-bg-secondary);
+  gap: 0.5rem;
+  padding: 1rem;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-tertiary) 100%);
   color: var(--color-text-primary);
   cursor: pointer;
   transition: all var(--transition-fast);
-  min-height: 80px;
+  min-height: 5rem;
   width: 100%;
   position: relative;
   overflow: hidden;
+  text-decoration: none;
 }
 
 .quick-action-btn:hover:not(:disabled) {
@@ -25,8 +26,10 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.quick-action-btn:focus {
-  outline: none;
+.quick-action-btn:focus,
+.quick-action-btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
   border-color: var(--color-primary);
   box-shadow: 0 0 0 3px var(--color-primary-alpha);
 }
@@ -44,8 +47,9 @@
 
 /* Button Content */
 .quick-action-btn__icon {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   line-height: 1;
+  margin-bottom: 0.25rem;
 }
 
 .quick-action-btn__label {
@@ -53,6 +57,7 @@
   font-weight: 600;
   text-align: center;
   line-height: 1.2;
+  white-space: nowrap;
 }
 
 /* Type-specific Colors */

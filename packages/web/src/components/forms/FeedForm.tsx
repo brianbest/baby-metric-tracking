@@ -24,8 +24,6 @@ export const FeedForm: React.FC<FeedFormProps> = ({
     duration: (initialData?.payload?.duration || '').toString(),
     side: initialData?.payload?.side || 'left' as BreastSide,
     formulaType: initialData?.payload?.formulaType || 'formula' as FormulaType,
-    bottleType: initialData?.payload?.bottleType || '',
-    location: initialData?.payload?.location || '',
     notes: initialData?.notes || '',
   });
 
@@ -73,8 +71,6 @@ export const FeedForm: React.FC<FeedFormProps> = ({
         duration: formData.duration ? parseFloat(formData.duration) : undefined,
         side: formData.source === 'breast' ? formData.side : undefined,
         formulaType: formData.source === 'bottle' ? formData.formulaType : undefined,
-        bottleType: formData.bottleType || undefined,
-        location: formData.location || undefined,
       },
     };
 
@@ -97,41 +93,90 @@ export const FeedForm: React.FC<FeedFormProps> = ({
       </div>
 
       <div className="entry-form__content">
-        {/* Feed Source */}
+        {/* Feed Source - Radio Buttons */}
         <div className="form-group">
-          <label htmlFor="source" className="form-label">
-            {t('forms.feed.source')}
-          </label>
-          <select
-            id="source"
-            value={formData.source}
-            onChange={(e) => handleFieldChange('source', e.target.value)}
-            className="form-select"
-            required
-          >
-            <option value="breast">{t('forms.feed.sources.breast')}</option>
-            <option value="bottle">{t('forms.feed.sources.bottle')}</option>
-            <option value="solid">{t('forms.feed.sources.solid')}</option>
-          </select>
+          <fieldset className="form-radio-group">
+            <legend className="form-label">{t('forms.feed.source')}</legend>
+            <div className="form-radio-options">
+              <label className="form-radio">
+                <input
+                  type="radio"
+                  name="source"
+                  value="breast"
+                  checked={formData.source === 'breast'}
+                  onChange={(e) => handleFieldChange('source', e.target.value)}
+                  className="form-radio__input"
+                />
+                <span className="form-radio__label">🤱 {t('forms.feed.sources.breast')}</span>
+              </label>
+              <label className="form-radio">
+                <input
+                  type="radio"
+                  name="source"
+                  value="bottle"
+                  checked={formData.source === 'bottle'}
+                  onChange={(e) => handleFieldChange('source', e.target.value)}
+                  className="form-radio__input"
+                />
+                <span className="form-radio__label">🍼 {t('forms.feed.sources.bottle')}</span>
+              </label>
+              <label className="form-radio">
+                <input
+                  type="radio"
+                  name="source"
+                  value="solid"
+                  checked={formData.source === 'solid'}
+                  onChange={(e) => handleFieldChange('source', e.target.value)}
+                  className="form-radio__input"
+                />
+                <span className="form-radio__label">🥄 {t('forms.feed.sources.solid')}</span>
+              </label>
+            </div>
+          </fieldset>
         </div>
 
         {/* Breast-specific fields */}
         {formData.source === 'breast' && (
-          <>
+          <div className="form-context-section">
             <div className="form-group">
-              <label htmlFor="side" className="form-label">
-                {t('forms.feed.side')}
-              </label>
-              <select
-                id="side"
-                value={formData.side}
-                onChange={(e) => handleFieldChange('side', e.target.value)}
-                className="form-select"
-              >
-                <option value="left">{t('forms.feed.sides.left')}</option>
-                <option value="right">{t('forms.feed.sides.right')}</option>
-                <option value="both">{t('forms.feed.sides.both')}</option>
-              </select>
+              <fieldset className="form-radio-group">
+                <legend className="form-label">{t('forms.feed.side')}</legend>
+                <div className="form-radio-options form-radio-options--inline">
+                  <label className="form-radio">
+                    <input
+                      type="radio"
+                      name="side"
+                      value="left"
+                      checked={formData.side === 'left'}
+                      onChange={(e) => handleFieldChange('side', e.target.value)}
+                      className="form-radio__input"
+                    />
+                    <span className="form-radio__label">{t('forms.feed.sides.left')}</span>
+                  </label>
+                  <label className="form-radio">
+                    <input
+                      type="radio"
+                      name="side"
+                      value="right"
+                      checked={formData.side === 'right'}
+                      onChange={(e) => handleFieldChange('side', e.target.value)}
+                      className="form-radio__input"
+                    />
+                    <span className="form-radio__label">{t('forms.feed.sides.right')}</span>
+                  </label>
+                  <label className="form-radio">
+                    <input
+                      type="radio"
+                      name="side"
+                      value="both"
+                      checked={formData.side === 'both'}
+                      onChange={(e) => handleFieldChange('side', e.target.value)}
+                      className="form-radio__input"
+                    />
+                    <span className="form-radio__label">{t('forms.feed.sides.both')}</span>
+                  </label>
+                </div>
+              </fieldset>
             </div>
 
             <div className="form-group">
@@ -154,12 +199,12 @@ export const FeedForm: React.FC<FeedFormProps> = ({
                 </span>
               )}
             </div>
-          </>
+          </div>
         )}
 
         {/* Bottle-specific fields */}
         {formData.source === 'bottle' && (
-          <>
+          <div className="form-context-section">
             <div className="form-group">
               <label htmlFor="volume" className="form-label">
                 {t('forms.feed.volume')} ({units === 'metric' ? t('units.ml') : t('units.oz')})
@@ -182,62 +227,78 @@ export const FeedForm: React.FC<FeedFormProps> = ({
             </div>
 
             <div className="form-group">
-              <label htmlFor="formulaType" className="form-label">
-                {t('forms.feed.formulaType')}
-              </label>
-              <select
-                id="formulaType"
-                value={formData.formulaType}
-                onChange={(e) => handleFieldChange('formulaType', e.target.value)}
-                className="form-select"
-              >
-                <option value="formula">{t('forms.feed.formulaTypes.formula')}</option>
-                <option value="breast_milk">{t('forms.feed.formulaTypes.breast_milk')}</option>
-                <option value="mixed">{t('forms.feed.formulaTypes.mixed')}</option>
-              </select>
+              <fieldset className="form-radio-group">
+                <legend className="form-label">{t('forms.feed.formulaType')}</legend>
+                <div className="form-radio-options">
+                  <label className="form-radio">
+                    <input
+                      type="radio"
+                      name="formulaType"
+                      value="formula"
+                      checked={formData.formulaType === 'formula'}
+                      onChange={(e) => handleFieldChange('formulaType', e.target.value)}
+                      className="form-radio__input"
+                    />
+                    <span className="form-radio__label">{t('forms.feed.formulaTypes.formula')}</span>
+                  </label>
+                  <label className="form-radio">
+                    <input
+                      type="radio"
+                      name="formulaType"
+                      value="breast_milk"
+                      checked={formData.formulaType === 'breast_milk'}
+                      onChange={(e) => handleFieldChange('formulaType', e.target.value)}
+                      className="form-radio__input"
+                    />
+                    <span className="form-radio__label">{t('forms.feed.formulaTypes.breast_milk')}</span>
+                  </label>
+                  <label className="form-radio">
+                    <input
+                      type="radio"
+                      name="formulaType"
+                      value="mixed"
+                      checked={formData.formulaType === 'mixed'}
+                      onChange={(e) => handleFieldChange('formulaType', e.target.value)}
+                      className="form-radio__input"
+                    />
+                    <span className="form-radio__label">{t('forms.feed.formulaTypes.mixed')}</span>
+                  </label>
+                </div>
+              </fieldset>
             </div>
-
-            <div className="form-group">
-              <label htmlFor="bottleType" className="form-label">
-                {t('forms.feed.bottleType')}
-              </label>
-              <input
-                id="bottleType"
-                type="text"
-                value={formData.bottleType}
-                onChange={(e) => handleFieldChange('bottleType', e.target.value)}
-                className="form-input"
-                placeholder="Dr. Brown's"
-              />
-            </div>
-          </>
+          </div>
         )}
 
-        {/* Common fields */}
-        <div className="form-group">
-          <label htmlFor="location" className="form-label">
-            {t('forms.feed.location')}
-          </label>
-          <input
-            id="location"
-            type="text"
-            value={formData.location}
-            onChange={(e) => handleFieldChange('location', e.target.value)}
-            className="form-input"
-            placeholder={t('forms.feed.locationPlaceholder')}
-          />
-        </div>
+        {/* Solid-specific fields */}
+        {formData.source === 'solid' && (
+          <div className="form-context-section">
+            <div className="form-group">
+              <label htmlFor="solidDescription" className="form-label">
+                {t('forms.feed.solidDescription')}
+              </label>
+              <input
+                id="solidDescription"
+                type="text"
+                value={formData.notes}
+                onChange={(e) => handleFieldChange('notes', e.target.value)}
+                className="form-input"
+                placeholder={t('forms.feed.solidPlaceholder')}
+              />
+            </div>
+          </div>
+        )}
 
+        {/* Notes field - always visible */}
         <div className="form-group">
           <label htmlFor="notes" className="form-label">
-            {t('forms.feed.notes')}
+            {t('forms.feed.notes')} ({t('common.optional')})
           </label>
           <textarea
             id="notes"
             value={formData.notes}
             onChange={(e) => handleFieldChange('notes', e.target.value)}
             className="form-textarea"
-            rows={3}
+            rows={2}
             placeholder={t('forms.feed.notesPlaceholder')}
           />
         </div>

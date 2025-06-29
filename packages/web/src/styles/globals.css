@@ -73,6 +73,14 @@ h6 {
   --color-text-secondary: #d1d5db; /* Gray 300 */
   --color-text-tertiary: #9ca3af; /* Gray 400 */
   --color-text-muted: #6b7280; /* Gray 500 */
+  --color-text-placeholder: #9ca3af; /* Gray 400 - 4.5:1 contrast on dark bg */
+  
+  /* Utility Colors */
+  --color-primary-alpha: rgba(244, 63, 94, 0.1);
+  --color-primary-hover: #e11d48;
+  --color-primary-contrast: #ffffff;
+  --color-error-alpha: rgba(239, 68, 68, 0.1);
+  --color-border-hover: #6b7280;
   
   /* Border Colors */
   --color-border: #4b5563; /* Gray 600 */
@@ -148,6 +156,7 @@ h6 {
   --color-text-secondary: #334155; /* Slate 700 */
   --color-text-tertiary: #475569; /* Slate 600 */
   --color-text-muted: #64748b; /* Slate 500 */
+  --color-text-placeholder: #64748b; /* Slate 500 - 4.5:1 contrast on light bg */
   
   --color-border: #e2e8f0; /* Slate 200 */
   --color-border-primary: #e2e8f0; /* Slate 200 */
