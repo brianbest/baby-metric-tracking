@@ -10,20 +10,16 @@ interface FeedFormProps {
   initialData?: Partial<CreateFeedEntry>;
 }
 
-export const FeedForm: React.FC<FeedFormProps> = ({ 
-  onSubmit, 
-  onCancel, 
-  initialData 
-}) => {
+export const FeedForm: React.FC<FeedFormProps> = ({ onSubmit, onCancel, initialData }) => {
   const { t } = useTranslation();
   const { units } = useSettingsStore();
-  
+
   const [formData, setFormData] = useState({
-    source: initialData?.payload?.source || 'breast' as FeedSource,
+    source: initialData?.payload?.source || ('breast' as FeedSource),
     volume: (initialData?.payload?.volume || '').toString(),
     duration: (initialData?.payload?.duration || '').toString(),
-    side: initialData?.payload?.side || 'left' as BreastSide,
-    formulaType: initialData?.payload?.formulaType || 'formula' as FormulaType,
+    side: initialData?.payload?.side || ('left' as BreastSide),
+    formulaType: initialData?.payload?.formulaType || ('formula' as FormulaType),
     notes: initialData?.notes || '',
   });
 
@@ -54,7 +50,7 @@ export const FeedForm: React.FC<FeedFormProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
@@ -78,11 +74,11 @@ export const FeedForm: React.FC<FeedFormProps> = ({
   };
 
   const handleFieldChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-    
+    setFormData((prev) => ({ ...prev, [field]: value }));
+
     // Clear error when user starts typing
     if (errors[field]) {
-      setErrors(prev => ({ ...prev, [field]: '' }));
+      setErrors((prev) => ({ ...prev, [field]: '' }));
     }
   };
 
@@ -239,7 +235,9 @@ export const FeedForm: React.FC<FeedFormProps> = ({
                       onChange={(e) => handleFieldChange('formulaType', e.target.value)}
                       className="form-radio__input"
                     />
-                    <span className="form-radio__label">{t('forms.feed.formulaTypes.formula')}</span>
+                    <span className="form-radio__label">
+                      {t('forms.feed.formulaTypes.formula')}
+                    </span>
                   </label>
                   <label className="form-radio">
                     <input
@@ -250,7 +248,9 @@ export const FeedForm: React.FC<FeedFormProps> = ({
                       onChange={(e) => handleFieldChange('formulaType', e.target.value)}
                       className="form-radio__input"
                     />
-                    <span className="form-radio__label">{t('forms.feed.formulaTypes.breast_milk')}</span>
+                    <span className="form-radio__label">
+                      {t('forms.feed.formulaTypes.breast_milk')}
+                    </span>
                   </label>
                   <label className="form-radio">
                     <input
@@ -305,20 +305,13 @@ export const FeedForm: React.FC<FeedFormProps> = ({
       </div>
 
       <div className="entry-form__actions">
-        <button
-          type="button"
-          onClick={onCancel}
-          className="btn btn--secondary"
-        >
+        <button type="button" onClick={onCancel} className="btn btn--secondary">
           {t('common.cancel')}
         </button>
-        <button
-          type="submit"
-          className="btn btn--primary"
-        >
+        <button type="submit" className="btn btn--primary">
           {t('common.save')}
         </button>
       </div>
     </form>
   );
-}; 
+};

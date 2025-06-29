@@ -24,31 +24,31 @@ export const EntryModal: React.FC<EntryModalProps> = ({
   const { t } = useTranslation();
   const modalRef = useRef<HTMLDivElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
-  
+
   const { getActiveBaby } = useBabyStore();
   const { addEntry } = useEntryStore();
   const { track } = useAnalyticsStore();
-  
+
   const activeBaby = getActiveBaby();
 
   // Focus management
   useEffect(() => {
     if (isOpen) {
       previousFocusRef.current = document.activeElement as HTMLElement;
-      
+
       // Focus the modal after a brief delay to ensure it's rendered
       const timer = setTimeout(() => {
         if (modalRef.current) {
           const firstFocusable = modalRef.current.querySelector(
             'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
           ) as HTMLElement;
-          
+
           if (firstFocusable) {
             firstFocusable.focus();
           }
         }
       }, 100);
-      
+
       return () => clearTimeout(timer);
     } else {
       // Return focus to the element that opened the modal
@@ -72,7 +72,7 @@ export const EntryModal: React.FC<EntryModalProps> = ({
         const focusableElements = modalRef.current.querySelectorAll(
           'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
         );
-        
+
         const firstElement = focusableElements[0] as HTMLElement;
         const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
 
@@ -107,7 +107,7 @@ export const EntryModal: React.FC<EntryModalProps> = ({
       };
 
       await addEntry(entry);
-      
+
       // Track analytics event
       track('entry_created', {
         entry_type: entryType,
@@ -151,26 +151,18 @@ export const EntryModal: React.FC<EntryModalProps> = ({
   }
 
   return createPortal(
-    <div 
+    <div
       className="modal-backdrop"
       onClick={handleBackdropClick}
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-title"
     >
-      <div 
-        ref={modalRef}
-        className="modal-content"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button
-          className="modal-close"
-          onClick={onClose}
-          aria-label={t('common.close')}
-        >
+      <div ref={modalRef} className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <button className="modal-close" onClick={onClose} aria-label={t('common.close')}>
           ×
         </button>
-        
+
         {!activeBaby ? (
           <div className="modal-error">
             <h2>{t('baby.noBabies')}</h2>
@@ -186,4 +178,4 @@ export const EntryModal: React.FC<EntryModalProps> = ({
     </div>,
     document.body
   );
-}; 
+};

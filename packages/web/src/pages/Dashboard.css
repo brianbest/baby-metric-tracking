@@ -10,7 +10,7 @@
 .dashboard__header {
   padding: 24px 20px 16px;
   text-align: left;
-  background: linear-gradient(135deg, var(--color-bg-primary) 0%, rgba(0,0,0,0.02) 100%);
+  background: linear-gradient(135deg, var(--color-bg-primary) 0%, rgba(0, 0, 0, 0.02) 100%);
 }
 
 .dashboard__title {
@@ -100,8 +100,12 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Stats Grid */
@@ -242,58 +246,58 @@
   .dashboard {
     padding: 1rem;
   }
-  
+
   .dashboard__header {
     flex-direction: column;
     align-items: stretch;
     gap: 1rem;
   }
-  
+
   .dashboard__title {
     font-size: 1.75rem;
   }
-  
+
   .dashboard__content {
     gap: 1.5rem;
   }
-  
+
   .dashboard__section-title {
     font-size: 1.125rem;
   }
-  
+
   .stats-grid {
     grid-template-columns: 1fr;
     gap: 0.75rem;
   }
-  
+
   .stat-card {
     padding: 1rem;
   }
-  
+
   .stat-card__value {
     font-size: 1.25rem;
   }
-  
+
   .summary-grid {
     grid-template-columns: 1fr;
     gap: 0.75rem;
   }
-  
+
   .summary-card {
     padding: 1rem;
   }
-  
+
   .reports-cta-card {
     flex-direction: column;
     align-items: stretch;
     gap: 1rem;
     text-align: center;
   }
-  
+
   .reports-cta-card__button {
     align-self: center;
   }
-  
+
   .recent-entry {
     padding: 0.75rem;
   }
@@ -303,17 +307,17 @@
   .dashboard {
     padding: 0.75rem;
   }
-  
+
   .dashboard__title {
     font-size: 1.5rem;
   }
-  
+
   .stat-card {
     flex-direction: column;
     text-align: center;
     gap: 0.75rem;
   }
-  
+
   .stat-card__icon {
     font-size: 2.5rem;
   }
@@ -325,7 +329,7 @@
   .recent-entry {
     border-width: 2px;
   }
-  
+
   .dashboard__date-input {
     border-width: 3px;
   }
@@ -339,7 +343,7 @@
     transition: none;
     animation: none;
   }
-  
+
   .stat-card:hover,
   .recent-entry:hover {
     transform: none;
@@ -495,11 +499,11 @@
   .dashboard {
     padding: 0;
   }
-  
+
   .dashboard__date-controls {
     display: none;
   }
-  
+
   .stat-card,
   .recent-entry,
   .summary-card {
@@ -507,7 +511,7 @@
     border: 1px solid #000;
     background-color: #fff;
   }
-  
+
   .reports-cta-card {
     display: none;
   }

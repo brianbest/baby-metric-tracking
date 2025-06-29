@@ -11,7 +11,9 @@
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06), 0 1px 4px rgba(0, 0, 0, 0.04);
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.06),
+    0 1px 4px rgba(0, 0, 0, 0.04);
   color: var(--color-text-primary);
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -108,7 +110,8 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -122,11 +125,11 @@
     min-height: 4rem;
     padding: 0.75rem;
   }
-  
+
   .quick-action-btn__icon {
     font-size: 1.25rem;
   }
-  
+
   .quick-action-btn__label {
     font-size: 0.75rem;
   }
@@ -137,7 +140,7 @@
   .quick-action-btn {
     border-width: 3px;
   }
-  
+
   .quick-action-btn:focus {
     border-width: 3px;
   }
@@ -148,16 +151,16 @@
   .quick-action-btn {
     transition: none;
   }
-  
+
   .quick-action-btn:hover:not(:disabled) {
     transform: none;
   }
-  
+
   .quick-action-btn:active:not(:disabled) {
     transform: none;
   }
-  
+
   .quick-action-btn--sleep.quick-action-btn--end::before {
     animation: none;
   }
-} 
+}

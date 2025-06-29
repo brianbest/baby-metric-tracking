@@ -32,7 +32,7 @@
     "activities": "Activities",
     "todayStats": "Today's Overview",
     "atAGlance": "At a Glance",
-    "recentEntries": "Recent Entries", 
+    "recentEntries": "Recent Entries",
     "lastFeed": "Last Feed",
     "lastSleep": "Last Sleep",
     "lastDiaper": "Last Diaper",
@@ -77,12 +77,12 @@
       "locationPlaceholder": "Living room, nursery...",
       "notesPlaceholder": "Additional notes...",
       "volumeRequired": "Volume is required for bottle feeding",
-      "durationRequired": "Duration is required for breastfeeding", 
+      "durationRequired": "Duration is required for breastfeeding",
       "volumePositive": "Volume must be greater than 0",
       "durationPositive": "Duration must be greater than 0",
       "sources": {
         "breast": "Breast",
-        "bottle": "Bottle", 
+        "bottle": "Bottle",
         "solid": "Solid Food"
       },
       "sides": {
@@ -146,7 +146,7 @@
       "endTimeAfterStart": "End time must be after start time",
       "qualityLabels": {
         "poor": "Poor",
-        "fair": "Fair", 
+        "fair": "Fair",
         "good": "Good",
         "veryGood": "Very Good",
         "excellent": "Excellent"
@@ -176,7 +176,7 @@
   "settings": {
     "title": "Settings",
     "language": "Language",
-    "theme": "Theme",  
+    "theme": "Theme",
     "units": "Units",
     "exportData": "Export Data",
     "importData": "Import Data",
@@ -207,7 +207,7 @@
     "ago": "ago",
     "minutesAgo": "{{count}} minute ago",
     "minutesAgo_plural": "{{count}} minutes ago",
-    "hoursAgo": "{{count}} hour ago", 
+    "hoursAgo": "{{count}} hour ago",
     "hoursAgo_plural": "{{count}} hours ago"
   }
-} 
+}

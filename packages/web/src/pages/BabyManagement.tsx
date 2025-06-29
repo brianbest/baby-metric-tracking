@@ -9,17 +9,15 @@ const BabyManagement: React.FC = () => {
       <header className="page-header">
         <h1>{t('navigation.babies')}</h1>
       </header>
-      
+
       <div className="page-content">
         <div className="baby-list">
           <p>{t('baby.noBabies')}</p>
-          <button className="btn btn--primary">
-            {t('baby.addBaby')}
-          </button>
+          <button className="btn btn--primary">{t('baby.addBaby')}</button>
         </div>
       </div>
     </div>
   );
 };
 
-export default BabyManagement; 
+export default BabyManagement;

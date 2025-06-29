@@ -36,14 +36,14 @@ export const useBabyStore = create<BabyStore>()(
         set({ isLoading: true, error: null });
         try {
           const babies = await db.getAllBabies();
-          
+
           // If no babies exist, create a default one for Phase 1
           if (babies.length === 0) {
             const defaultBaby = await get().createDefaultBaby();
             set({ babies: [defaultBaby], activeBabyId: defaultBaby.id, isLoading: false });
           } else {
             set({ babies, isLoading: false });
-            
+
             // Auto-select first baby if none selected
             const { activeBabyId } = get();
             if (!activeBabyId && babies.length > 0) {
@@ -51,9 +51,9 @@ export const useBabyStore = create<BabyStore>()(
             }
           }
         } catch (error) {
-          set({ 
+          set({
             error: error instanceof Error ? error.message : 'Failed to load babies',
-            isLoading: false 
+            isLoading: false,
           });
         }
       },
@@ -62,16 +62,16 @@ export const useBabyStore = create<BabyStore>()(
         set({ isLoading: true, error: null });
         try {
           const baby = await db.createBaby(babyData);
-          set(state => ({
+          set((state) => ({
             babies: [...state.babies, baby],
             activeBabyId: state.activeBabyId || baby.id, // Set as active if first baby
-            isLoading: false
+            isLoading: false,
           }));
           return baby;
         } catch (error) {
-          set({ 
+          set({
             error: error instanceof Error ? error.message : 'Failed to add baby',
-            isLoading: false 
+            isLoading: false,
           });
           throw error;
         }
@@ -81,16 +81,16 @@ export const useBabyStore = create<BabyStore>()(
         set({ isLoading: true, error: null });
         try {
           await db.updateBaby(id, updates);
-          set(state => ({
-            babies: state.babies.map(baby => 
+          set((state) => ({
+            babies: state.babies.map((baby) =>
               baby.id === id ? { ...baby, ...updates, updatedAt: new Date() } : baby
             ),
-            isLoading: false
+            isLoading: false,
           }));
         } catch (error) {
-          set({ 
+          set({
             error: error instanceof Error ? error.message : 'Failed to update baby',
-            isLoading: false 
+            isLoading: false,
           });
           throw error;
         }
@@ -100,15 +100,15 @@ export const useBabyStore = create<BabyStore>()(
         set({ isLoading: true, error: null });
         try {
           await db.deleteBaby(id);
-          set(state => ({
-            babies: state.babies.filter(baby => baby.id !== id),
+          set((state) => ({
+            babies: state.babies.filter((baby) => baby.id !== id),
             activeBabyId: state.activeBabyId === id ? null : state.activeBabyId,
-            isLoading: false
+            isLoading: false,
           }));
         } catch (error) {
-          set({ 
+          set({
             error: error instanceof Error ? error.message : 'Failed to delete baby',
-            isLoading: false 
+            isLoading: false,
           });
           throw error;
         }
@@ -120,7 +120,7 @@ export const useBabyStore = create<BabyStore>()(
 
       getActiveBaby: () => {
         const { babies, activeBabyId } = get();
-        return babies.find(baby => baby.id === activeBabyId) || null;
+        return babies.find((baby) => baby.id === activeBabyId) || null;
       },
 
       createDefaultBaby: async () => {
@@ -130,15 +130,15 @@ export const useBabyStore = create<BabyStore>()(
           birthDate: now, // Use current date as placeholder
           preferredUnits: 'metric' as const,
         };
-        
+
         return await db.createBaby(defaultBabyData);
       },
     }),
     {
       name: 'baby-store',
-      partialize: (state) => ({ 
-        activeBabyId: state.activeBabyId 
+      partialize: (state) => ({
+        activeBabyId: state.activeBabyId,
       }),
     }
   )
-); 
+);

@@ -65,4 +65,4 @@ export type Entry = FeedEntry | DiaperEntry | SleepEntry;
 export type CreateFeedEntry = Omit<FeedEntry, 'id' | 'createdAt'>;
 export type CreateDiaperEntry = Omit<DiaperEntry, 'id' | 'createdAt'>;
 export type CreateSleepEntry = Omit<SleepEntry, 'id' | 'createdAt'>;
-export type CreateEntry = CreateFeedEntry | CreateDiaperEntry | CreateSleepEntry; 
+export type CreateEntry = CreateFeedEntry | CreateDiaperEntry | CreateSleepEntry;

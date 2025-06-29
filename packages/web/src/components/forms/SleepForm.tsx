@@ -11,19 +11,19 @@ interface SleepFormProps {
   activeSleepEntry?: any; // For ending active sleep
 }
 
-export const SleepForm: React.FC<SleepFormProps> = ({ 
-  onSubmit, 
-  onCancel, 
+export const SleepForm: React.FC<SleepFormProps> = ({
+  onSubmit,
+  onCancel,
   initialData,
   // activeSleepEntry
 }) => {
   const { t } = useTranslation();
-  
+
   const [formData, setFormData] = useState({
-    startTime: initialData?.payload?.startTime 
+    startTime: initialData?.payload?.startTime
       ? format(initialData.payload.startTime, "yyyy-MM-dd'T'HH:mm")
       : format(new Date(), "yyyy-MM-dd'T'HH:mm"),
-    endTime: initialData?.payload?.endTime 
+    endTime: initialData?.payload?.endTime
       ? format(initialData.payload.endTime, "yyyy-MM-dd'T'HH:mm")
       : '',
     isNap: initialData?.payload?.isNap || false,
@@ -42,7 +42,7 @@ export const SleepForm: React.FC<SleepFormProps> = ({
       const end = new Date(formData.endTime);
       const diffMs = end.getTime() - start.getTime();
       const diffMinutes = Math.round(diffMs / (1000 * 60));
-      
+
       if (diffMinutes >= 0) {
         setDuration(diffMinutes);
       } else {
@@ -70,7 +70,7 @@ export const SleepForm: React.FC<SleepFormProps> = ({
         const diffMinutes = Math.round(diffMs / (1000 * 60));
         setDuration(diffMinutes >= 0 ? diffMinutes : 0);
       }, 60000); // Update every minute
-      
+
       return () => clearInterval(interval);
     }
   }, [formData.inProgress, formData.startTime]);
@@ -89,7 +89,7 @@ export const SleepForm: React.FC<SleepFormProps> = ({
     if (formData.startTime && formData.endTime) {
       const start = new Date(formData.startTime);
       const end = new Date(formData.endTime);
-      
+
       if (end <= start) {
         newErrors.endTime = t('forms.sleep.endTimeAfterStart');
       }
@@ -101,14 +101,14 @@ export const SleepForm: React.FC<SleepFormProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
 
     const startTime = new Date(formData.startTime);
     const endTime = formData.endTime ? new Date(formData.endTime) : undefined;
-    
+
     const entry: CreateSleepEntry = {
       babyId: '', // Will be set by parent component
       type: 'sleep',
@@ -126,37 +126,37 @@ export const SleepForm: React.FC<SleepFormProps> = ({
   };
 
   const handleFieldChange = (field: string, value: string | boolean) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-    
+    setFormData((prev) => ({ ...prev, [field]: value }));
+
     // Clear error when user starts typing
     if (typeof value === 'string' && errors[field]) {
-      setErrors(prev => ({ ...prev, [field]: '' }));
+      setErrors((prev) => ({ ...prev, [field]: '' }));
     }
   };
 
   const handleStartSleep = () => {
     const now = format(new Date(), "yyyy-MM-dd'T'HH:mm");
-    setFormData(prev => ({ 
-      ...prev, 
+    setFormData((prev) => ({
+      ...prev,
       startTime: now,
       endTime: '',
-      inProgress: true 
+      inProgress: true,
     }));
   };
 
   const handleEndNow = () => {
     const now = format(new Date(), "yyyy-MM-dd'T'HH:mm");
-    setFormData(prev => ({ 
-      ...prev, 
+    setFormData((prev) => ({
+      ...prev,
       endTime: now,
-      inProgress: false 
+      inProgress: false,
     }));
   };
 
   const formatDuration = (minutes: number) => {
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
-    
+
     if (hours > 0) {
       return `${hours}h ${mins}m`;
     }
@@ -179,10 +179,9 @@ export const SleepForm: React.FC<SleepFormProps> = ({
                   <div className="sleep-timer-status">
                     <span className="sleep-timer-icon">😴</span>
                     <span className="sleep-timer-text">
-                      {duration !== null ? 
-                        `${t('forms.sleep.sleepingFor')} ${formatDuration(duration)}` : 
-                        t('forms.sleep.sleepStarted')
-                      }
+                      {duration !== null
+                        ? `${t('forms.sleep.sleepingFor')} ${formatDuration(duration)}`
+                        : t('forms.sleep.sleepStarted')}
                     </span>
                   </div>
                   <button
@@ -215,9 +214,7 @@ export const SleepForm: React.FC<SleepFormProps> = ({
               onChange={(e) => handleFieldChange('isNap', e.target.checked)}
               className="form-checkbox__input"
             />
-            <span className="form-checkbox__label">
-              {t('forms.sleep.isNap')}
-            </span>
+            <span className="form-checkbox__label">{t('forms.sleep.isNap')}</span>
           </label>
         </div>
 
@@ -286,7 +283,6 @@ export const SleepForm: React.FC<SleepFormProps> = ({
           </div>
         )}
 
-
         {/* Notes */}
         <div className="form-group">
           <label htmlFor="notes" className="form-label">
@@ -304,20 +300,13 @@ export const SleepForm: React.FC<SleepFormProps> = ({
       </div>
 
       <div className="entry-form__actions">
-        <button
-          type="button"
-          onClick={onCancel}
-          className="btn btn--secondary"
-        >
+        <button type="button" onClick={onCancel} className="btn btn--secondary">
           {t('common.cancel')}
         </button>
-        <button
-          type="submit"
-          className="btn btn--primary"
-        >
+        <button type="submit" className="btn btn--primary">
           {t('common.save')}
         </button>
       </div>
     </form>
   );
-}; 
+};

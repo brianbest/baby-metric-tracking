@@ -40,9 +40,7 @@ export const QuickActionButton: React.FC<QuickActionButtonProps> = ({
       <span className="quick-action-btn__icon" role="img" aria-hidden="true">
         {icon}
       </span>
-      <span className="quick-action-btn__label">
-        {label}
-      </span>
+      <span className="quick-action-btn__label">{label}</span>
     </button>
   );
-}; 
+};

@@ -13,7 +13,7 @@ const Settings: React.FC = () => {
       <header className="page-header">
         <h1>{t('settings.title')}</h1>
       </header>
-      
+
       <div className="page-content">
         <section className="settings-section">
           <h2>{t('settings.language')}</h2>
@@ -36,12 +36,8 @@ const Settings: React.FC = () => {
         <section className="settings-section">
           <h2>{t('settings.theme')}</h2>
           <div className="settings-group">
-            <button className="btn btn--secondary">
-              {t('settings.themes.dark')}
-            </button>
-            <button className="btn btn--secondary">
-              {t('settings.themes.light')}
-            </button>
+            <button className="btn btn--secondary">{t('settings.themes.dark')}</button>
+            <button className="btn btn--secondary">{t('settings.themes.light')}</button>
           </div>
         </section>
       </div>
@@ -49,4 +45,4 @@ const Settings: React.FC = () => {
   );
 };
 
-export default Settings; 
+export default Settings;

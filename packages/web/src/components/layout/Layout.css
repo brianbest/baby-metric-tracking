@@ -18,9 +18,9 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(135deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.98) 100%);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.98) 100%);
   backdrop-filter: blur(10px);
-  border-top: 1px solid rgba(255,255,255,0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   z-index: 100;
   padding: 8px 0;
   height: 64px;
@@ -94,25 +94,25 @@
     flex-direction: column;
     gap: var(--spacing-md);
   }
-  
+
   .layout__title {
     font-size: var(--font-size-lg);
     text-align: center;
   }
-  
+
   .layout__nav-list {
     justify-content: center;
     flex-wrap: wrap;
   }
-  
+
   .layout__nav-text {
     display: none;
   }
-  
+
   .layout__nav-icon {
     font-size: var(--font-size-xl);
   }
-  
+
   .layout__main {
     padding: var(--spacing-md);
   }
@@ -122,8 +122,8 @@
   .layout__nav-list {
     gap: var(--spacing-xs);
   }
-  
+
   .layout__nav-link {
     padding: var(--spacing-sm);
   }
-} 
+}

@@ -39,17 +39,18 @@ export const useEntryStore = create<EntryStore>((set, get) => ({
       const startDate = startOfDay(date);
       const endDate = endOfDay(date);
       const entries = await db.getEntriesByDateRange(babyId, startDate, endDate);
-      
-      set({ 
+
+      set({
         entries,
-        todayEntries: date.toDateString() === new Date().toDateString() ? entries : get().todayEntries,
+        todayEntries:
+          date.toDateString() === new Date().toDateString() ? entries : get().todayEntries,
         lastEntry: entries.length > 0 ? entries[entries.length - 1] : null,
-        isLoading: false 
+        isLoading: false,
       });
     } catch (error) {
-      set({ 
+      set({
         error: error instanceof Error ? error.message : 'Failed to load entries',
-        isLoading: false 
+        isLoading: false,
       });
     }
   },
@@ -63,30 +64,32 @@ export const useEntryStore = create<EntryStore>((set, get) => ({
     set({ isLoading: true, error: null });
     try {
       const entry = await db.createEntry(entryData);
-      
-      set(state => {
-        const newEntries = [...state.entries, entry].sort((a, b) => 
-          a.timestamp.getTime() - b.timestamp.getTime()
+
+      set((state) => {
+        const newEntries = [...state.entries, entry].sort(
+          (a, b) => a.timestamp.getTime() - b.timestamp.getTime()
         );
-        
+
         const isToday = entry.timestamp.toDateString() === new Date().toDateString();
-        const newTodayEntries = isToday 
-          ? [...state.todayEntries, entry].sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime())
+        const newTodayEntries = isToday
+          ? [...state.todayEntries, entry].sort(
+              (a, b) => a.timestamp.getTime() - b.timestamp.getTime()
+            )
           : state.todayEntries;
 
         return {
           entries: newEntries,
           todayEntries: newTodayEntries,
           lastEntry: entry,
-          isLoading: false
+          isLoading: false,
         };
       });
-      
+
       return entry;
     } catch (error) {
-      set({ 
+      set({
         error: error instanceof Error ? error.message : 'Failed to add entry',
-        isLoading: false 
+        isLoading: false,
       });
       throw error;
     }
@@ -96,20 +99,20 @@ export const useEntryStore = create<EntryStore>((set, get) => ({
     set({ isLoading: true, error: null });
     try {
       await db.updateEntry(id, updates);
-      
-      set(state => ({
-        entries: state.entries.map(entry => 
-          entry.id === id ? { ...entry, ...updates } as Entry : entry
+
+      set((state) => ({
+        entries: state.entries.map((entry) =>
+          entry.id === id ? ({ ...entry, ...updates } as Entry) : entry
         ),
-        todayEntries: state.todayEntries.map(entry => 
-          entry.id === id ? { ...entry, ...updates } as Entry : entry
+        todayEntries: state.todayEntries.map((entry) =>
+          entry.id === id ? ({ ...entry, ...updates } as Entry) : entry
         ),
-        isLoading: false
+        isLoading: false,
       }));
     } catch (error) {
-      set({ 
+      set({
         error: error instanceof Error ? error.message : 'Failed to update entry',
-        isLoading: false 
+        isLoading: false,
       });
       throw error;
     }
@@ -119,16 +122,16 @@ export const useEntryStore = create<EntryStore>((set, get) => ({
     set({ isLoading: true, error: null });
     try {
       await db.deleteEntry(id);
-      
-      set(state => ({
-        entries: state.entries.filter(entry => entry.id !== id),
-        todayEntries: state.todayEntries.filter(entry => entry.id !== id),
-        isLoading: false
+
+      set((state) => ({
+        entries: state.entries.filter((entry) => entry.id !== id),
+        todayEntries: state.todayEntries.filter((entry) => entry.id !== id),
+        isLoading: false,
       }));
     } catch (error) {
-      set({ 
+      set({
         error: error instanceof Error ? error.message : 'Failed to delete entry',
-        isLoading: false 
+        isLoading: false,
       });
       throw error;
     }
@@ -137,13 +140,13 @@ export const useEntryStore = create<EntryStore>((set, get) => ({
   getStats: (babyId: string, date = new Date()): DashboardStats => {
     const { entries } = get();
     const targetDate = date.toDateString();
-    const dayEntries = entries.filter(entry => 
-      entry.babyId === babyId && entry.timestamp.toDateString() === targetDate
+    const dayEntries = entries.filter(
+      (entry) => entry.babyId === babyId && entry.timestamp.toDateString() === targetDate
     );
 
-    const feedEntries = dayEntries.filter(entry => entry.type === 'feed');
-    const sleepEntries = dayEntries.filter(entry => entry.type === 'sleep');
-    const diaperEntries = dayEntries.filter(entry => entry.type === 'diaper');
+    const feedEntries = dayEntries.filter((entry) => entry.type === 'feed');
+    const sleepEntries = dayEntries.filter((entry) => entry.type === 'sleep');
+    const diaperEntries = dayEntries.filter((entry) => entry.type === 'diaper');
 
     const totalSleep = sleepEntries.reduce((total, entry) => {
       if (entry.type === 'sleep' && entry.payload.duration) {
@@ -156,8 +159,10 @@ export const useEntryStore = create<EntryStore>((set, get) => ({
       totalFeeds: feedEntries.length,
       totalSleep,
       lastFeed: feedEntries.length > 0 ? feedEntries[feedEntries.length - 1].timestamp : undefined,
-      lastSleep: sleepEntries.length > 0 ? sleepEntries[sleepEntries.length - 1].timestamp : undefined,
-      lastDiaper: diaperEntries.length > 0 ? diaperEntries[diaperEntries.length - 1].timestamp : undefined,
+      lastSleep:
+        sleepEntries.length > 0 ? sleepEntries[sleepEntries.length - 1].timestamp : undefined,
+      lastDiaper:
+        diaperEntries.length > 0 ? diaperEntries[diaperEntries.length - 1].timestamp : undefined,
     };
   },
 
@@ -175,14 +180,16 @@ export const useEntryStore = create<EntryStore>((set, get) => ({
 
   endSleep: async (sleepEntryId: string) => {
     const { entries } = get();
-    const sleepEntry = entries.find(entry => entry.id === sleepEntryId);
-    
+    const sleepEntry = entries.find((entry) => entry.id === sleepEntryId);
+
     if (!sleepEntry || sleepEntry.type !== 'sleep') {
       throw new Error('Sleep entry not found');
     }
 
     const endTime = new Date();
-    const duration = Math.round((endTime.getTime() - sleepEntry.payload.startTime.getTime()) / (1000 * 60));
+    const duration = Math.round(
+      (endTime.getTime() - sleepEntry.payload.startTime.getTime()) / (1000 * 60)
+    );
 
     await get().updateEntry(sleepEntryId, {
       payload: {
@@ -192,4 +199,4 @@ export const useEntryStore = create<EntryStore>((set, get) => ({
       },
     });
   },
-})); 
+}));

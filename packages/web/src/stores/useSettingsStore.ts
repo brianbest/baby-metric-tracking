@@ -30,7 +30,7 @@ export const useSettingsStore = create<SettingsStore>()(
       // Actions
       setLanguage: (language) => {
         set({ language });
-        
+
         // Update i18next language
         if (typeof window !== 'undefined') {
           import('i18next').then((i18next) => {
@@ -41,7 +41,7 @@ export const useSettingsStore = create<SettingsStore>()(
 
       setTheme: (theme) => {
         set({ theme });
-        
+
         // Update CSS custom properties for theme
         if (typeof window !== 'undefined') {
           document.documentElement.setAttribute('data-theme', theme);
@@ -60,7 +60,7 @@ export const useSettingsStore = create<SettingsStore>()(
         if (get().isInitialized) return;
 
         const { theme, language } = get();
-        
+
         // Apply theme
         if (typeof window !== 'undefined') {
           document.documentElement.setAttribute('data-theme', theme);
@@ -86,4 +86,4 @@ export const useSettingsStore = create<SettingsStore>()(
       },
     }
   )
-); 
+);

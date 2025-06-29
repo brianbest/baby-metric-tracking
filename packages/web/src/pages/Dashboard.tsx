@@ -10,14 +10,9 @@ import './Dashboard.css';
 const Dashboard: React.FC = () => {
   const { t } = useTranslation();
   const [selectedDate, setSelectedDate] = useState(new Date());
-  
+
   const { babies, getActiveBaby, loadBabies } = useBabyStore();
-  const { 
-    todayEntries, 
-    loadTodayEntries, 
-    getStats, 
-    isLoading: entriesLoading 
-  } = useEntryStore();
+  const { todayEntries, loadTodayEntries, getStats, isLoading: entriesLoading } = useEntryStore();
   const { initialize } = useSettingsStore();
 
   const activeBaby = getActiveBaby();
@@ -39,7 +34,7 @@ const Dashboard: React.FC = () => {
   const formatSleepDuration = (minutes: number) => {
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
-    
+
     if (hours > 0) {
       return `${hours}h ${mins}m`;
     }
@@ -49,11 +44,11 @@ const Dashboard: React.FC = () => {
   const formatTimeAgo = (date: Date) => {
     const now = new Date();
     const diffMinutes = Math.floor((now.getTime() - date.getTime()) / (1000 * 60));
-    
+
     if (diffMinutes < 60) {
       return t('time.minutesAgo', { count: diffMinutes });
     }
-    
+
     const diffHours = Math.floor(diffMinutes / 60);
     return t('time.hoursAgo', { count: diffHours });
   };
@@ -84,11 +79,9 @@ const Dashboard: React.FC = () => {
     <div className="dashboard">
       <header className="dashboard__header">
         <h1 className="dashboard__title">{t('dashboard.title')}</h1>
-        <p className="dashboard__subtitle">
-          {format(selectedDate, 'MMMM d')}
-        </p>
+        <p className="dashboard__subtitle">{format(selectedDate, 'MMMM d')}</p>
       </header>
-      
+
       <div className="dashboard__content">
         {/* Quick Actions Section */}
         <section className="dashboard__quick-actions">
@@ -132,10 +125,9 @@ const Dashboard: React.FC = () => {
             </div>
           </section>
         )}
-
       </div>
     </div>
   );
 };
 
-export default Dashboard; 
+export default Dashboard;

@@ -5,4 +5,4 @@ export interface Baby {
   preferredUnits: 'metric' | 'imperial';
   createdAt: Date;
   updatedAt: Date;
-} 
+}
