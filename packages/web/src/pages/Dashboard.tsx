@@ -11,11 +11,11 @@ const Dashboard: React.FC = () => {
   const { t } = useTranslation();
   const [selectedDate, setSelectedDate] = useState(new Date());
 
-  const { babies, getActiveBaby, loadBabies } = useBabyStore();
+const { babies, getSelectedBaby, loadBabies } = useBabyStore();
   const { todayEntries, loadTodayEntries, getStats, isLoading: entriesLoading } = useEntryStore();
   const { initialize } = useSettingsStore();
 
-  const activeBaby = getActiveBaby();
+const activeBaby = getSelectedBaby(babies);
 
   // Initialize stores and load data
   useEffect(() => {

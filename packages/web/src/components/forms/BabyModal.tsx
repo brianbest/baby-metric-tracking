@@ -1,35 +1,23 @@
 import React, { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
-import { CreateEntry, EntryType } from '@baby-tracker/shared';
-import { FeedForm } from './FeedForm';
-import { DiaperForm } from './DiaperForm';
-import { SleepForm } from './SleepForm';
-import { useBabyStore, useEntryStore, useAnalyticsStore } from '../../stores';
+import { Baby } from '@baby-tracker/shared';
+import BabyForm from './BabyForm';
+import { useBabyStore } from '../../stores';
 import './EntryModal.css';
 
-interface EntryModalProps {
+type CreateBabyData = Omit<Baby, 'id' | 'createdAt' | 'updatedAt'>;
+
+interface BabyModalProps {
   isOpen: boolean;
   onClose: () => void;
-  entryType: EntryType;
-  initialData?: Partial<CreateEntry>;
 }
 
-export const EntryModal: React.FC<EntryModalProps> = ({
-  isOpen,
-  onClose,
-  entryType,
-  initialData,
-}) => {
+export const BabyModal: React.FC<BabyModalProps> = ({ isOpen, onClose }) => {
   const { t } = useTranslation();
   const modalRef = useRef<HTMLDivElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
-
-  const { babies, getSelectedBaby } = useBabyStore();
-  const { addEntry } = useEntryStore();
-  const { track } = useAnalyticsStore();
-
-  const activeBaby = getSelectedBaby(babies);
+  const { createBaby } = useBabyStore();
 
   // Focus management
   useEffect(() => {
@@ -94,30 +82,12 @@ export const EntryModal: React.FC<EntryModalProps> = ({
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
 
-  const handleSubmit = async (entryData: CreateEntry) => {
-    if (!activeBaby) {
-      console.error('No active baby selected');
-      return;
-    }
-
+  const handleSubmit = async (babyData: CreateBabyData) => {
     try {
-      const entry = {
-        ...entryData,
-        babyId: activeBaby.id,
-      };
-
-      await addEntry(entry);
-
-      // Track analytics event
-      track('entry_created', {
-        entry_type: entryType,
-        baby_id: activeBaby.id,
-        has_notes: !!entry.notes,
-      });
-
+      await createBaby(babyData);
       onClose();
     } catch (error) {
-      console.error('Failed to create entry:', error);
+      console.error('Failed to create baby:', error);
       // In a real app, you'd show a user-friendly error message
     }
   };
@@ -125,24 +95,6 @@ export const EntryModal: React.FC<EntryModalProps> = ({
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       onClose();
-    }
-  };
-
-  const renderForm = () => {
-    const baseProps = {
-      onSubmit: handleSubmit,
-      onCancel: onClose,
-    };
-
-    switch (entryType) {
-      case 'feed':
-        return <FeedForm {...baseProps} initialData={initialData as any} />;
-      case 'diaper':
-        return <DiaperForm {...baseProps} initialData={initialData as any} />;
-      case 'sleep':
-        return <SleepForm {...baseProps} initialData={initialData as any} />;
-      default:
-        return null;
     }
   };
 
@@ -163,17 +115,9 @@ export const EntryModal: React.FC<EntryModalProps> = ({
           ×
         </button>
 
-        {!activeBaby ? (
-          <div className="modal-error">
-            <h2>{t('baby.noBabies')}</h2>
-            <p>{t('baby.selectBabyFirst')}</p>
-            <button onClick={onClose} className="btn btn--primary">
-              {t('common.close')}
-            </button>
-          </div>
-        ) : (
-          renderForm()
-        )}
+        <h2 id="modal-title">{t('baby.addBaby')}</h2>
+        
+        <BabyForm onSubmit={handleSubmit} onCancel={onClose} />
       </div>
     </div>,
     document.body
