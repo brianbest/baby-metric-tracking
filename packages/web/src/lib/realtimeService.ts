@@ -33,9 +33,9 @@ class SupabaseRealtimeService implements RealtimeService {
         },
         (payload) => {
           console.log('Real-time entry change:', payload);
-          
+
           // Notify all entry callbacks
-          this.entryCallbacks.forEach(callback => {
+          this.entryCallbacks.forEach((callback) => {
             callback(payload.new || payload.old, payload.eventType as any);
           });
         }
@@ -43,11 +43,11 @@ class SupabaseRealtimeService implements RealtimeService {
       .on('presence', { event: 'sync' }, () => {
         const newState = channel.presenceState();
         const presenceList = Object.values(newState).flat();
-        
+
         console.log('Presence sync:', presenceList);
-        
+
         // Notify all presence callbacks
-        this.presenceCallbacks.forEach(callback => {
+        this.presenceCallbacks.forEach((callback) => {
           callback(presenceList);
         });
       })
@@ -60,7 +60,7 @@ class SupabaseRealtimeService implements RealtimeService {
       .subscribe(async (status) => {
         if (status === 'SUBSCRIBED') {
           console.log(`Subscribed to baby:${babyId} channel`);
-          
+
           // Send initial presence
           await this.sendPresence(babyId, 'online');
         }
@@ -74,7 +74,7 @@ class SupabaseRealtimeService implements RealtimeService {
     if (channel) {
       // Send offline presence before unsubscribing
       await this.sendPresence(babyId, 'offline');
-      
+
       supabase.removeChannel(channel);
       this.channels.delete(babyId);
       console.log(`Unsubscribed from baby:${babyId} channel`);
@@ -85,8 +85,10 @@ class SupabaseRealtimeService implements RealtimeService {
     const channel = this.channels.get(babyId);
     if (!channel) return;
 
-    const { data: { user } } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
     if (status === 'online') {
       channel.track({
         user_id: user,
@@ -111,7 +113,7 @@ class SupabaseRealtimeService implements RealtimeService {
     this.channels.forEach((channel, babyId) => {
       this.unsubscribeFromBaby(babyId);
     });
-    
+
     // Clear callbacks
     this.entryCallbacks = [];
     this.presenceCallbacks = [];
@@ -130,7 +132,9 @@ import { queryKeys } from '../hooks/useData';
 export function useRealtime(babyId?: string) {
   const { user } = useAuthStore();
   const [onlineUsers, setOnlineUsers] = useState<any[]>([]);
-  const [connectionStatus, setConnectionStatus] = useState<'connecting' | 'connected' | 'disconnected'>('disconnected');
+  const [connectionStatus, setConnectionStatus] = useState<
+    'connecting' | 'connected' | 'disconnected'
+  >('disconnected');
   const queryClient = useQueryClient();
 
   useEffect(() => {
@@ -146,7 +150,7 @@ export function useRealtime(babyId?: string) {
     const handleEntryChange = (entry: any, event: 'INSERT' | 'UPDATE' | 'DELETE') => {
       // Invalidate queries to refetch fresh data
       queryClient.invalidateQueries({ queryKey: queryKeys.entries(babyId) });
-      
+
       // Show notification for changes from other users
       if (entry.created_by !== user.id) {
         showNotification(event, entry);

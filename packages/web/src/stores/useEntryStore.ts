@@ -7,7 +7,7 @@ interface EntryState {
   isLoading: boolean;
 
   selectedEntryId: string | null;
-  
+
   // Actions
   selectEntry: (id: string | null) => void;
   getSelectedEntry: (entries: Entry[]) => Entry | null;
@@ -16,7 +16,10 @@ interface EntryState {
   getEntriesForDate: (entries: Entry[], date: Date) => Entry[];
   loadTodayEntries: (babyId: string) => Promise<void>;
   addEntry: (entry: CreateEntry) => Promise<void>;
-  getStats: (babyId: string, date: Date) => { lastFeed: Date | null; lastDiaper: Date | null; lastSleep: Date | null; };
+  getStats: (
+    babyId: string,
+    date: Date
+  ) => { lastFeed: Date | null; lastDiaper: Date | null; lastSleep: Date | null };
 }
 
 export const useEntryStore = create<EntryState>()((set, get) => ({
@@ -48,11 +51,14 @@ export const useEntryStore = create<EntryState>()((set, get) => ({
 
   getStats: (babyId, date) => {
     const { todayEntries } = get();
-    const entriesForToday = todayEntries.filter(entry => entry.babyId === babyId);
+    const entriesForToday = todayEntries.filter((entry) => entry.babyId === babyId);
 
-    const lastFeed = entriesForToday.filter(entry => entry.type === 'feed').slice(-1)[0]?.timestamp || null;
-    const lastDiaper = entriesForToday.filter(entry => entry.type === 'diaper').slice(-1)[0]?.timestamp || null;
-    const lastSleep = entriesForToday.filter(entry => entry.type === 'sleep').slice(-1)[0]?.timestamp || null;
+    const lastFeed =
+      entriesForToday.filter((entry) => entry.type === 'feed').slice(-1)[0]?.timestamp || null;
+    const lastDiaper =
+      entriesForToday.filter((entry) => entry.type === 'diaper').slice(-1)[0]?.timestamp || null;
+    const lastSleep =
+      entriesForToday.filter((entry) => entry.type === 'sleep').slice(-1)[0]?.timestamp || null;
 
     return {
       lastFeed,
