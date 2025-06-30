@@ -16,15 +16,7 @@ import { Entry } from '@baby-tracker/shared';
 import { format, startOfDay, endOfDay } from 'date-fns';
 import './TimelineChart.css';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  TimeScale
-);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, TimeScale);
 
 interface TimelineChartProps {
   entries: Entry[];
@@ -39,11 +31,7 @@ interface TimelineDataPoint {
   entry: Entry;
 }
 
-export const TimelineChart: React.FC<TimelineChartProps> = ({
-  entries,
-  date,
-  height = 300,
-}) => {
+export const TimelineChart: React.FC<TimelineChartProps> = ({ entries, date, height = 300 }) => {
   const { t } = useTranslation();
 
   const { chartData, options } = useMemo(() => {
@@ -52,7 +40,7 @@ export const TimelineChart: React.FC<TimelineChartProps> = ({
 
     // Create 24-hour timeline data
     const timelineData: TimelineDataPoint[] = [];
-    
+
     entries.forEach((entry) => {
       // Map entry types to y-axis positions
       let yPosition = 0;
@@ -77,9 +65,9 @@ export const TimelineChart: React.FC<TimelineChartProps> = ({
     });
 
     // Separate data by entry type for different colors
-    const feedData = timelineData.filter(d => d.entryType === 'feed');
-    const diaperData = timelineData.filter(d => d.entryType === 'diaper');
-    const sleepData = timelineData.filter(d => d.entryType === 'sleep');
+    const feedData = timelineData.filter((d) => d.entryType === 'feed');
+    const diaperData = timelineData.filter((d) => d.entryType === 'diaper');
+    const sleepData = timelineData.filter((d) => d.entryType === 'sleep');
 
     const data = {
       datasets: [
@@ -215,7 +203,7 @@ export const TimelineChart: React.FC<TimelineChartProps> = ({
               size: 11,
             },
             maxRotation: 0,
-            callback: function(value: any) {
+            callback: function (value: any) {
               return format(new Date(value), 'HH:mm');
             },
           },
@@ -239,12 +227,16 @@ export const TimelineChart: React.FC<TimelineChartProps> = ({
             font: {
               size: 11,
             },
-            callback: function(value: any) {
+            callback: function (value: any) {
               switch (value) {
-                case 1: return t('forms.diaper.title');
-                case 2: return t('forms.feed.title');
-                case 3: return t('forms.sleep.title');
-                default: return '';
+                case 1:
+                  return t('forms.diaper.title');
+                case 2:
+                  return t('forms.feed.title');
+                case 3:
+                  return t('forms.sleep.title');
+                default:
+                  return '';
               }
             },
           },
@@ -276,9 +268,7 @@ export const TimelineChart: React.FC<TimelineChartProps> = ({
         </h3>
         <div className="timeline-chart__summary">
           {entries.length === 0 ? (
-            <span className="timeline-chart__empty">
-              {t('dashboard.noData')}
-            </span>
+            <span className="timeline-chart__empty">{t('dashboard.noData')}</span>
           ) : (
             <span className="timeline-chart__count">
               {t('dashboard.entriesCount', { count: entries.length })}
@@ -286,23 +276,18 @@ export const TimelineChart: React.FC<TimelineChartProps> = ({
           )}
         </div>
       </div>
-      
-      <div 
-        className="timeline-chart__container"
-        style={{ height: `${height}px` }}
-      >
+
+      <div className="timeline-chart__container" style={{ height: `${height}px` }}>
         {entries.length > 0 ? (
           <Bar data={chartData} options={options as any} />
         ) : (
           <div className="timeline-chart__placeholder">
             <div className="timeline-chart__placeholder-icon">📊</div>
             <p>{t('dashboard.noDataToday')}</p>
-            <p className="timeline-chart__placeholder-hint">
-              {t('dashboard.addFirstEntry')}
-            </p>
+            <p className="timeline-chart__placeholder-hint">{t('dashboard.addFirstEntry')}</p>
           </div>
         )}
       </div>
     </div>
   );
-}; 
+};

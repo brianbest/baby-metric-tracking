@@ -9,7 +9,7 @@ import './QuickActionGrid.css';
 export const QuickActionGrid: React.FC = () => {
   const { t } = useTranslation();
   const { getActiveBaby } = useBabyStore();
-  
+
   const [modalState, setModalState] = useState<{
     isOpen: boolean;
     entryType: EntryType | null;
@@ -43,9 +43,7 @@ export const QuickActionGrid: React.FC = () => {
     {
       type: 'sleep' as EntryType,
       icon: activeSleepEntry ? '😴' : '🛌',
-      label: activeSleepEntry 
-        ? t('quickActions.endSleep')
-        : t('quickActions.startSleep'),
+      label: activeSleepEntry ? t('quickActions.endSleep') : t('quickActions.startSleep'),
     },
   ];
 
@@ -53,7 +51,7 @@ export const QuickActionGrid: React.FC = () => {
     <div className="quick-action-grid">
       {/* Main Quick Actions */}
       <div className="quick-action-grid__main">
-        {quickActions.map(action => (
+        {quickActions.map((action) => (
           <QuickActionButton
             key={action.type}
             type={action.type}
@@ -65,7 +63,6 @@ export const QuickActionGrid: React.FC = () => {
         ))}
       </div>
 
-
       {/* Entry Modal */}
       {modalState.entryType && (
         <EntryModal
@@ -76,4 +73,4 @@ export const QuickActionGrid: React.FC = () => {
       )}
     </div>
   );
-}; 
+};

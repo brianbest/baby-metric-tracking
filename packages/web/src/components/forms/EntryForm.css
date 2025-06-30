@@ -61,7 +61,9 @@
   background-color: var(--color-bg-primary);
   color: var(--color-text-primary);
   font-size: 1rem;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .form-input:focus,
@@ -495,20 +497,20 @@
     flex-direction: column;
     gap: 0.75rem;
   }
-  
+
   .form-color-picker {
     justify-content: center;
   }
-  
+
   .form-color-option {
     width: 3.5rem;
     height: 3.5rem;
   }
-  
+
   .btn--large {
     width: 100%;
   }
-  
+
   .sleep-timer-status {
     margin-bottom: 1rem;
   }
@@ -524,7 +526,7 @@
   .form-color-option {
     transition: none;
   }
-  
+
   .form-color-option:hover,
   .form-color-option:has(.form-color-option__input:checked) {
     transform: none;

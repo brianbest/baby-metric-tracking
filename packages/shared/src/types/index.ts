@@ -30,4 +30,4 @@ export interface DashboardStats {
   lastFeed?: Date;
   lastSleep?: Date;
   lastDiaper?: Date;
-} 
+}

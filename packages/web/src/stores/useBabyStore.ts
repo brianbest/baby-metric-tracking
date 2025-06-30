@@ -1,55 +1,35 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { Baby } from '@baby-tracker/shared';
-import * as db from '@baby-tracker/shared/db';
+import { dataService } from '../lib/dataService';
 
 interface BabyState {
   babies: Baby[];
-  activeBabyId: string | null;
+  selectedBabyId: string | null;
   isLoading: boolean;
   error: string | null;
-}
-
-interface BabyActions {
+  
+  // Actions
   loadBabies: () => Promise<void>;
-  addBaby: (babyData: Omit<Baby, 'id' | 'createdAt' | 'updatedAt'>) => Promise<Baby>;
-  updateBaby: (id: string, updates: Partial<Baby>) => Promise<void>;
-  deleteBaby: (id: string) => Promise<void>;
-  setActiveBaby: (id: string | null) => void;
+  createBaby: (baby: Omit<Baby, 'id' | 'createdAt' | 'updatedAt'>) => Promise<void>;
+  selectBaby: (id: string | null) => void;
+  getSelectedBaby: (babies: Baby[]) => Baby | null;
   getActiveBaby: () => Baby | null;
-  createDefaultBaby: () => Promise<Baby>;
 }
 
-type BabyStore = BabyState & BabyActions;
-
-export const useBabyStore = create<BabyStore>()(
+export const useBabyStore = create<BabyState>()(
   persist(
     (set, get) => ({
-      // State
       babies: [],
-      activeBabyId: null,
+      selectedBabyId: null,
       isLoading: false,
       error: null,
 
-      // Actions
       loadBabies: async () => {
         set({ isLoading: true, error: null });
         try {
-          const babies = await db.getAllBabies();
-          
-          // If no babies exist, create a default one for Phase 1
-          if (babies.length === 0) {
-            const defaultBaby = await get().createDefaultBaby();
-            set({ babies: [defaultBaby], activeBabyId: defaultBaby.id, isLoading: false });
-          } else {
-            set({ babies, isLoading: false });
-            
-            // Auto-select first baby if none selected
-            const { activeBabyId } = get();
-            if (!activeBabyId && babies.length > 0) {
-              set({ activeBabyId: babies[0].id });
-            }
-          }
+          const babies = await dataService.getBabies();
+          set({ babies, isLoading: false });
         } catch (error) {
           set({ 
             error: error instanceof Error ? error.message : 'Failed to load babies',
@@ -58,87 +38,44 @@ export const useBabyStore = create<BabyStore>()(
         }
       },
 
-      addBaby: async (babyData) => {
+      createBaby: async (baby) => {
         set({ isLoading: true, error: null });
         try {
-          const baby = await db.createBaby(babyData);
-          set(state => ({
-            babies: [...state.babies, baby],
-            activeBabyId: state.activeBabyId || baby.id, // Set as active if first baby
-            isLoading: false
-          }));
-          return baby;
+          const newBaby = await dataService.createBaby(baby);
+          const { babies } = get();
+          set({ 
+            babies: [...babies, newBaby], 
+            isLoading: false,
+            selectedBabyId: newBaby.id // Auto-select the new baby
+          });
         } catch (error) {
           set({ 
-            error: error instanceof Error ? error.message : 'Failed to add baby',
+            error: error instanceof Error ? error.message : 'Failed to create baby',
             isLoading: false 
           });
-          throw error;
         }
       },
 
-      updateBaby: async (id, updates) => {
-        set({ isLoading: true, error: null });
-        try {
-          await db.updateBaby(id, updates);
-          set(state => ({
-            babies: state.babies.map(baby => 
-              baby.id === id ? { ...baby, ...updates, updatedAt: new Date() } : baby
-            ),
-            isLoading: false
-          }));
-        } catch (error) {
-          set({ 
-            error: error instanceof Error ? error.message : 'Failed to update baby',
-            isLoading: false 
-          });
-          throw error;
-        }
+      selectBaby: (id) => {
+        set({ selectedBabyId: id });
       },
 
-      deleteBaby: async (id) => {
-        set({ isLoading: true, error: null });
-        try {
-          await db.deleteBaby(id);
-          set(state => ({
-            babies: state.babies.filter(baby => baby.id !== id),
-            activeBabyId: state.activeBabyId === id ? null : state.activeBabyId,
-            isLoading: false
-          }));
-        } catch (error) {
-          set({ 
-            error: error instanceof Error ? error.message : 'Failed to delete baby',
-            isLoading: false 
-          });
-          throw error;
-        }
-      },
-
-      setActiveBaby: (id) => {
-        set({ activeBabyId: id });
+      getSelectedBaby: (babies) => {
+        const { selectedBabyId } = get();
+        return babies.find((baby) => baby.id === selectedBabyId) || null;
       },
 
       getActiveBaby: () => {
-        const { babies, activeBabyId } = get();
-        return babies.find(baby => baby.id === activeBabyId) || null;
-      },
-
-      createDefaultBaby: async () => {
-        const now = new Date();
-        const defaultBabyData = {
-          name: 'Baby',
-          birthDate: now, // Use current date as placeholder
-          preferredUnits: 'metric' as const,
-        };
-        
-        return await db.createBaby(defaultBabyData);
+        const { babies, selectedBabyId } = get();
+        return babies.find((baby) => baby.id === selectedBabyId) || null;
       },
     }),
     {
-      name: 'baby-store',
+      name: 'baby-storage',
       partialize: (state) => ({ 
-        activeBabyId: state.activeBabyId 
+        selectedBabyId: state.selectedBabyId,
+        babies: state.babies 
       }),
     }
   )
-); 
+);

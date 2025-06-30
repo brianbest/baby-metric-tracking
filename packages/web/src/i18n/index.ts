@@ -12,11 +12,11 @@ i18n
   .init({
     fallbackLng: 'en-US',
     debug: false, // Will be set to true in development
-    
+
     interpolation: {
       escapeValue: false, // React already does escaping
     },
-    
+
     resources: {
       'en-US': {
         translation: enUS,
@@ -27,4 +27,4 @@ i18n
     },
   });
 
-export default i18n; 
+export default i18n;

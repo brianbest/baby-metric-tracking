@@ -1,12 +1,8 @@
-module.exports = {
+export default {
   root: true,
   env: { browser: true, es2020: true, node: true },
-  extends: [
-    'eslint:recommended',
-    '@typescript-eslint/recommended',
-    'airbnb-base',
-  ],
-  ignorePatterns: ['dist', '.eslintrc.js'],
+  extends: ['eslint:recommended', '@typescript-eslint/recommended', 'airbnb-base'],
+  ignorePatterns: ['dist', '.eslintrc.mjs', 'supabase/functions/**/*.ts'],
   parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint'],
   rules: {
@@ -25,4 +21,4 @@ module.exports = {
       },
     },
   },
-}; 
+};

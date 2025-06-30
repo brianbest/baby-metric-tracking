@@ -1,5 +1,3 @@
-
-
 /* Quick Action Grid */
 .quick-action-grid {
   display: flex;
@@ -23,13 +21,17 @@
   background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
   color: white;
   min-height: 4rem;
-  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.24), 0 4px 8px rgba(0, 0, 0, 0.08);
+  box-shadow:
+    0 8px 24px rgba(59, 130, 246, 0.24),
+    0 4px 8px rgba(0, 0, 0, 0.08);
 }
 
 .quick-action-grid__main .quick-action-btn--feed:hover:not(:disabled) {
   background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
   transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(59, 130, 246, 0.32), 0 6px 12px rgba(0, 0, 0, 0.12);
+  box-shadow:
+    0 12px 32px rgba(59, 130, 246, 0.32),
+    0 6px 12px rgba(0, 0, 0, 0.12);
 }
 
 .quick-action-grid__main .quick-action-btn--feed .quick-action-btn__icon {
@@ -41,23 +43,20 @@
   font-weight: 700;
 }
 
-
 /* Mobile Responsive */
 @media (max-width: 768px) {
   .quick-action-grid {
     gap: 12px;
   }
-  
+
   .quick-action-grid__main {
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
   }
-  
 }
 
 @media (max-width: 480px) {
   .quick-action-grid__main {
     gap: 8px;
   }
-  
 }

@@ -77,14 +77,14 @@
   .modal-backdrop {
     padding: 0.5rem;
   }
-  
+
   .modal-content {
     max-height: 98vh;
     border-radius: 0.5rem;
   }
-  
+
   .modal-close {
     top: 0.5rem;
     right: 0.5rem;
   }
-} 
+}

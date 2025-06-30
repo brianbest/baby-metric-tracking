@@ -9,7 +9,8 @@ const meta: Meta<typeof TimelineChart> = {
     layout: 'padded',
     docs: {
       description: {
-        component: '24-hour timeline chart showing baby activities (feeds, diapers, sleep) throughout the day.',
+        component:
+          '24-hour timeline chart showing baby activities (feeds, diapers, sleep) throughout the day.',
       },
     },
   },
@@ -152,7 +153,7 @@ export const TallChart: Story = {
 
 export const OnlyFeeds: Story = {
   args: {
-    entries: mockEntries.filter(entry => entry.type === 'feed'),
+    entries: mockEntries.filter((entry) => entry.type === 'feed'),
     date: new Date('2024-01-15'),
     height: 300,
   },
@@ -160,7 +161,7 @@ export const OnlyFeeds: Story = {
 
 export const OnlySleep: Story = {
   args: {
-    entries: mockEntries.filter(entry => entry.type === 'sleep'),
+    entries: mockEntries.filter((entry) => entry.type === 'sleep'),
     date: new Date('2024-01-15'),
     height: 300,
   },
@@ -168,7 +169,7 @@ export const OnlySleep: Story = {
 
 export const OnlyDiapers: Story = {
   args: {
-    entries: mockEntries.filter(entry => entry.type === 'diaper'),
+    entries: mockEntries.filter((entry) => entry.type === 'diaper'),
     date: new Date('2024-01-15'),
     height: 300,
   },

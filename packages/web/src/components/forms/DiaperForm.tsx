@@ -9,16 +9,12 @@ interface DiaperFormProps {
   initialData?: Partial<CreateDiaperEntry>;
 }
 
-export const DiaperForm: React.FC<DiaperFormProps> = ({ 
-  onSubmit, 
-  onCancel, 
-  initialData 
-}) => {
+export const DiaperForm: React.FC<DiaperFormProps> = ({ onSubmit, onCancel, initialData }) => {
   const { t } = useTranslation();
-  
+
   const [formData, setFormData] = useState({
-    diaperType: initialData?.payload?.diaperType || 'wet' as DiaperType,
-    color: initialData?.payload?.color || 'yellow' as DiaperColor,
+    diaperType: initialData?.payload?.diaperType || ('wet' as DiaperType),
+    color: initialData?.payload?.color || ('yellow' as DiaperColor),
     consistency: initialData?.payload?.consistency || 'soft',
     notes: initialData?.notes || '',
   });
@@ -42,7 +38,7 @@ export const DiaperForm: React.FC<DiaperFormProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
@@ -54,12 +50,14 @@ export const DiaperForm: React.FC<DiaperFormProps> = ({
       notes: formData.notes || undefined,
       payload: {
         diaperType: formData.diaperType,
-        color: (formData.diaperType === 'dirty' || formData.diaperType === 'mixed') 
-          ? formData.color 
-          : undefined,
-        consistency: (formData.diaperType === 'dirty' || formData.diaperType === 'mixed') 
-          ? formData.consistency as 'liquid' | 'soft' | 'formed' | 'hard'
-          : undefined,
+        color:
+          formData.diaperType === 'dirty' || formData.diaperType === 'mixed'
+            ? formData.color
+            : undefined,
+        consistency:
+          formData.diaperType === 'dirty' || formData.diaperType === 'mixed'
+            ? (formData.consistency as 'liquid' | 'soft' | 'formed' | 'hard')
+            : undefined,
       },
     };
 
@@ -67,15 +65,16 @@ export const DiaperForm: React.FC<DiaperFormProps> = ({
   };
 
   const handleFieldChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-    
+    setFormData((prev) => ({ ...prev, [field]: value }));
+
     // Clear error when user starts typing
     if (errors[field]) {
-      setErrors(prev => ({ ...prev, [field]: '' }));
+      setErrors((prev) => ({ ...prev, [field]: '' }));
     }
   };
 
-  const showColorAndConsistency = formData.diaperType === 'dirty' || formData.diaperType === 'mixed';
+  const showColorAndConsistency =
+    formData.diaperType === 'dirty' || formData.diaperType === 'mixed';
 
   return (
     <form onSubmit={handleSubmit} className="entry-form" noValidate>
@@ -204,7 +203,6 @@ export const DiaperForm: React.FC<DiaperFormProps> = ({
           </div>
         )}
 
-
         {/* Notes */}
         <div className="form-group">
           <label htmlFor="notes" className="form-label">
@@ -222,20 +220,13 @@ export const DiaperForm: React.FC<DiaperFormProps> = ({
       </div>
 
       <div className="entry-form__actions">
-        <button
-          type="button"
-          onClick={onCancel}
-          className="btn btn--secondary"
-        >
+        <button type="button" onClick={onCancel} className="btn btn--secondary">
           {t('common.cancel')}
         </button>
-        <button
-          type="submit"
-          className="btn btn--primary"
-        >
+        <button type="submit" className="btn btn--primary">
           {t('common.save')}
         </button>
       </div>
     </form>
   );
-}; 
+};

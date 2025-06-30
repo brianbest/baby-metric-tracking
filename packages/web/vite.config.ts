@@ -26,7 +26,7 @@ export default defineConfig({
       manifest: {
         name: 'Baby Metrics Tracker',
         short_name: 'BabyTracker',
-        description: 'Track your baby\'s feeding, sleeping, and diaper changes',
+        description: "Track your baby's feeding, sleeping, and diaper changes",
         theme_color: '#1a1a2e',
         background_color: '#16213e',
         display: 'standalone',
@@ -35,4 +35,4 @@ export default defineConfig({
       },
     }),
   ],
-}); 
+});

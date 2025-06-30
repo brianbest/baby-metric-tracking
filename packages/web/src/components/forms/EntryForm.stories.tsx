@@ -24,11 +24,7 @@ export default meta;
 
 export const FeedFormDefault: StoryObj<typeof FeedForm> = {
   render: (args) => (
-    <FeedForm
-      onSubmit={action('feed-submitted')}
-      onCancel={action('feed-cancelled')}
-      {...args}
-    />
+    <FeedForm onSubmit={action('feed-submitted')} onCancel={action('feed-cancelled')} {...args} />
   ),
   parameters: {
     docs: {

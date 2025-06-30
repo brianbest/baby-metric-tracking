@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { AppSettings } from '@baby-tracker/shared';
-// import i18n from 'i18next';
+import i18n from '../i18n';
 
 interface SettingsState extends AppSettings {
   isInitialized: boolean;
@@ -30,18 +30,18 @@ export const useSettingsStore = create<SettingsStore>()(
       // Actions
       setLanguage: (language) => {
         set({ language });
-        
+
         // Update i18next language
-        if (typeof window !== 'undefined') {
-          import('i18next').then((i18next) => {
-            i18next.default.changeLanguage(language);
+        if (typeof window !== 'undefined' && i18n.isInitialized) {
+          i18n.changeLanguage(language).catch((error) => {
+            console.warn('Failed to change language:', error);
           });
         }
       },
 
       setTheme: (theme) => {
         set({ theme });
-        
+
         // Update CSS custom properties for theme
         if (typeof window !== 'undefined') {
           document.documentElement.setAttribute('data-theme', theme);
@@ -60,17 +60,26 @@ export const useSettingsStore = create<SettingsStore>()(
         if (get().isInitialized) return;
 
         const { theme, language } = get();
-        
+
         // Apply theme
         if (typeof window !== 'undefined') {
           document.documentElement.setAttribute('data-theme', theme);
         }
 
-        // Apply language
+        // Apply language when i18next is ready
         if (typeof window !== 'undefined') {
-          import('i18next').then((i18next) => {
-            i18next.default.changeLanguage(language);
-          });
+          if (i18n.isInitialized) {
+            i18n.changeLanguage(language).catch((error) => {
+              console.warn('Failed to change language during initialization:', error);
+            });
+          } else {
+            // Wait for i18next to be ready
+            i18n.on('initialized', () => {
+              i18n.changeLanguage(language).catch((error) => {
+                console.warn('Failed to change language after initialization:', error);
+              });
+            });
+          }
         }
 
         set({ isInitialized: true });
@@ -86,4 +95,4 @@ export const useSettingsStore = create<SettingsStore>()(
       },
     }
   )
-); 
+);

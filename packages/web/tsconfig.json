@@ -23,4 +23,4 @@
   "include": ["src", "../shared/src"],
   "exclude": ["**/*.stories.tsx", "**/*.stories.ts", ".storybook"],
   "references": [{ "path": "./tsconfig.node.json" }]
-} 
+}

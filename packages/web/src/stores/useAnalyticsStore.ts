@@ -47,8 +47,8 @@ export const useAnalyticsStore = create<AnalyticsStore>()(
           userId,
         };
 
-        set(state => ({
-          events: [...state.events, analyticsEvent]
+        set((state) => ({
+          events: [...state.events, analyticsEvent],
         }));
 
         // Try to flush immediately if online
@@ -59,7 +59,7 @@ export const useAnalyticsStore = create<AnalyticsStore>()(
 
       flush: async () => {
         const { events, isOnline } = get();
-        
+
         if (!isOnline || events.length === 0) {
           return;
         }
@@ -67,7 +67,7 @@ export const useAnalyticsStore = create<AnalyticsStore>()(
         try {
           // In a real implementation, you would send to Segment here
           // For now, we'll just simulate the API call
-          const segmentEvents = events.map(event => ({
+          const segmentEvents = events.map((event) => ({
             event: event.event,
             properties: event.properties,
             userId: event.userId,
@@ -75,13 +75,12 @@ export const useAnalyticsStore = create<AnalyticsStore>()(
           }));
 
           // Simulate API call
-          await new Promise(resolve => setTimeout(resolve, 100));
-          
+          await new Promise((resolve) => setTimeout(resolve, 100));
+
           console.log('Analytics events flushed:', segmentEvents);
-          
+
           // Clear successfully sent events
           set({ events: [] });
-          
         } catch (error) {
           console.error('Failed to flush analytics events:', error);
           // Events remain in queue for next attempt
@@ -90,7 +89,7 @@ export const useAnalyticsStore = create<AnalyticsStore>()(
 
       setOnlineStatus: (isOnline: boolean) => {
         set({ isOnline });
-        
+
         // Try to flush queued events when coming back online
         if (isOnline) {
           get().flush().catch(console.error);
@@ -108,9 +107,9 @@ export const useAnalyticsStore = create<AnalyticsStore>()(
         window.addEventListener('offline', handleOffline);
 
         // Set initial online status
-        set({ 
+        set({
           isOnline: navigator.onLine,
-          isInitialized: true 
+          isInitialized: true,
         });
 
         // Try to flush any queued events
@@ -119,8 +118,8 @@ export const useAnalyticsStore = create<AnalyticsStore>()(
     }),
     {
       name: 'analytics-store',
-      partialize: (state) => ({ 
-        events: state.events 
+      partialize: (state) => ({
+        events: state.events,
       }),
       onRehydrateStorage: () => (state) => {
         if (state) {
@@ -129,4 +128,4 @@ export const useAnalyticsStore = create<AnalyticsStore>()(
       },
     }
   )
-); 
+);

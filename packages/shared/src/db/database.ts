@@ -63,7 +63,7 @@ export function dbEntryToEntry(dbEntry: DBEntry): Entry {
     createdAt: new Date(dbEntry.createdAt),
     payload: JSON.parse(dbEntry.payloadJson),
   };
-  
+
   // Type assertion based on entry type
   return base as Entry;
-} 
+}

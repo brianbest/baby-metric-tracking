@@ -30,7 +30,7 @@ export async function createBaby(
 }
 
 export async function updateBaby(
-  id: string, 
+  id: string,
   updates: Partial<Omit<Baby, 'id' | 'createdAt'>>
 ): Promise<void> {
   const existing = await db.babies.get(id);
@@ -50,37 +50,34 @@ export async function updateBaby(
 export async function deleteBaby(id: string): Promise<void> {
   // First delete all entries for this baby
   await db.entries.where('babyId').equals(id).delete();
-  
+
   // Then delete the baby
   await db.babies.delete(id);
 }
 
 // Entry operations
 export async function getAllEntries(babyId: string): Promise<Entry[]> {
-  const dbEntries = await db.entries
-    .where('babyId')
-    .equals(babyId)
-    .toArray();
-  
+  const dbEntries = await db.entries.where('babyId').equals(babyId).toArray();
+
   return dbEntries
     .map(dbEntryToEntry)
     .sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
 }
 
 export async function getEntriesByDateRange(
-  babyId: string, 
-  startDate: Date, 
+  babyId: string,
+  startDate: Date,
   endDate: Date
 ): Promise<Entry[]> {
   const dbEntries = await db.entries
     .where('babyId')
     .equals(babyId)
-    .and(entry => {
+    .and((entry) => {
       const entryDate = new Date(entry.timestamp);
       return entryDate >= startDate && entryDate <= endDate;
     })
     .toArray();
-  
+
   return dbEntries
     .map(dbEntryToEntry)
     .sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
@@ -105,7 +102,7 @@ export async function createEntry(entryData: CreateEntry): Promise<Entry> {
 }
 
 export async function updateEntry(
-  id: string, 
+  id: string,
   updates: Partial<Omit<Entry, 'id' | 'createdAt'>>
 ): Promise<void> {
   const existing = await db.entries.get(id);
@@ -132,16 +129,13 @@ export async function deleteEntry(id: string): Promise<void> {
 
 // Utility functions
 export async function getLatestEntry(babyId: string): Promise<Entry | null> {
-  const dbEntries = await db.entries
-    .where('babyId')
-    .equals(babyId)
-    .toArray();
-  
+  const dbEntries = await db.entries.where('babyId').equals(babyId).toArray();
+
   if (dbEntries.length === 0) return null;
-  
+
   const entries = dbEntries.map(dbEntryToEntry);
   entries.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
-  
+
   return entries[0];
 }
 
@@ -149,19 +143,19 @@ export async function getActiveSleepEntry(babyId: string): Promise<Entry | null>
   const dbEntries = await db.entries
     .where('babyId')
     .equals(babyId)
-    .and(entry => entry.type === 'sleep')
+    .and((entry) => entry.type === 'sleep')
     .toArray();
-  
+
   const sleepEntries = dbEntries
     .map(dbEntryToEntry)
     .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
-  
+
   // Find the most recent sleep entry without an end time
   for (const entry of sleepEntries) {
     if (entry.type === 'sleep' && !entry.payload.endTime) {
       return entry;
     }
   }
-  
+
   return null;
-} 
+}

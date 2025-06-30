@@ -65,17 +65,17 @@ const preview: Preview = {
   decorators: [
     (Story, context) => {
       const { theme, locale } = context.globals;
-      
+
       // Apply theme to document
       if (typeof document !== 'undefined') {
         document.documentElement.setAttribute('data-theme', theme);
       }
-      
+
       // Apply locale (i18next will be initialized in the component stories)
       if (typeof window !== 'undefined' && window.i18next) {
         window.i18next.changeLanguage(locale);
       }
-      
+
       return Story();
     },
   ],

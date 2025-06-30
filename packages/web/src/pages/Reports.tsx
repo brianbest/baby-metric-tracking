@@ -9,7 +9,7 @@ const Reports: React.FC = () => {
   const { t } = useTranslation();
   const { getActiveBaby } = useBabyStore();
   const { todayEntries, getStats } = useEntryStore();
-  
+
   const activeBaby = getActiveBaby();
   const today = new Date();
   const stats = activeBaby ? getStats(activeBaby.id, today) : null;
@@ -17,7 +17,7 @@ const Reports: React.FC = () => {
   const formatSleepDuration = (minutes: number) => {
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
-    
+
     if (hours > 0) {
       return `${hours}h ${mins}m`;
     }
@@ -43,7 +43,7 @@ const Reports: React.FC = () => {
           Detailed insights for {activeBaby.name} • {format(today, 'MMMM d, yyyy')}
         </p>
       </header>
-      
+
       <div className="reports__content">
         {/* Daily Summary */}
         <section className="reports__summary">
@@ -70,7 +70,9 @@ const Reports: React.FC = () => {
                   {stats.totalSleep > 0 ? formatSleepDuration(stats.totalSleep) : '0h'}
                 </div>
                 <div className="reports-stat-card__detail">
-                  {stats.lastSleep ? `Last: ${format(stats.lastSleep, 'HH:mm')}` : 'No sleep logged'}
+                  {stats.lastSleep
+                    ? `Last: ${format(stats.lastSleep, 'HH:mm')}`
+                    : 'No sleep logged'}
                 </div>
               </div>
 
@@ -80,10 +82,12 @@ const Reports: React.FC = () => {
                   <span className="reports-stat-card__title">Diapers</span>
                 </div>
                 <div className="reports-stat-card__value">
-                  {todayEntries.filter(e => e.type === 'diaper').length}
+                  {todayEntries.filter((e) => e.type === 'diaper').length}
                 </div>
                 <div className="reports-stat-card__detail">
-                  {stats.lastDiaper ? `Last: ${format(stats.lastDiaper, 'HH:mm')}` : 'No changes today'}
+                  {stats.lastDiaper
+                    ? `Last: ${format(stats.lastDiaper, 'HH:mm')}`
+                    : 'No changes today'}
                 </div>
               </div>
             </div>
@@ -94,11 +98,7 @@ const Reports: React.FC = () => {
         <section className="reports__timeline">
           <h2 className="reports__section-title">24-Hour Timeline</h2>
           <div className="reports__chart-container">
-            <TimelineChart 
-              entries={todayEntries} 
-              date={today}
-              height={400}
-            />
+            <TimelineChart entries={todayEntries} date={today} height={400} />
           </div>
         </section>
 

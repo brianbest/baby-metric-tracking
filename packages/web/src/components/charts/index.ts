@@ -1,1 +1,1 @@
-export { TimelineChart } from './TimelineChart'; 
+export { TimelineChart } from './TimelineChart';

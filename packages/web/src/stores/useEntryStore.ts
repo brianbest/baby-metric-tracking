@@ -1,195 +1,93 @@
 import { create } from 'zustand';
-import type { Entry, CreateEntry, DashboardStats } from '@baby-tracker/shared';
-import * as db from '@baby-tracker/shared/db';
-import { startOfDay, endOfDay } from 'date-fns';
+import type { Entry, CreateEntry } from '@baby-tracker/shared';
+import { dataService } from '../lib/dataService';
 
 interface EntryState {
-  entries: Entry[];
   todayEntries: Entry[];
   isLoading: boolean;
-  error: string | null;
-  lastEntry: Entry | null;
-}
 
-interface EntryActions {
-  loadEntries: (babyId: string, date?: Date) => Promise<void>;
+  selectedEntryId: string | null;
+  
+  // Actions
+  selectEntry: (id: string | null) => void;
+  getSelectedEntry: (entries: Entry[]) => Entry | null;
+  getEntriesByType: (entries: Entry[], type: Entry['type']) => Entry[];
+  getLastEntry: (entries: Entry[], type?: Entry['type']) => Entry | null;
+  getEntriesForDate: (entries: Entry[], date: Date) => Entry[];
   loadTodayEntries: (babyId: string) => Promise<void>;
-  addEntry: (entry: CreateEntry) => Promise<Entry>;
-  updateEntry: (id: string, updates: Partial<Entry>) => Promise<void>;
-  deleteEntry: (id: string) => Promise<void>;
-  getStats: (babyId: string, date?: Date) => DashboardStats;
-  repeatLastEntry: () => Promise<Entry | null>;
-  endSleep: (sleepEntryId: string) => Promise<void>;
+  addEntry: (entry: CreateEntry) => Promise<void>;
+  getStats: (babyId: string, date: Date) => { lastFeed: Date | null; lastDiaper: Date | null; lastSleep: Date | null; };
 }
 
-type EntryStore = EntryState & EntryActions;
-
-export const useEntryStore = create<EntryStore>((set, get) => ({
-  // State
-  entries: [],
+export const useEntryStore = create<EntryState>()((set, get) => ({
   todayEntries: [],
   isLoading: false,
-  error: null,
-  lastEntry: null,
+  selectedEntryId: null,
 
-  // Actions
-  loadEntries: async (babyId: string, date = new Date()) => {
-    set({ isLoading: true, error: null });
+  loadTodayEntries: async (babyId) => {
+    set({ isLoading: true });
     try {
-      const startDate = startOfDay(date);
-      const endDate = endOfDay(date);
-      const entries = await db.getEntriesByDateRange(babyId, startDate, endDate);
-      
-      set({ 
-        entries,
-        todayEntries: date.toDateString() === new Date().toDateString() ? entries : get().todayEntries,
-        lastEntry: entries.length > 0 ? entries[entries.length - 1] : null,
-        isLoading: false 
-      });
+      const entries = await dataService.getEntries(babyId);
+      set({ todayEntries: entries, isLoading: false });
     } catch (error) {
-      set({ 
-        error: error instanceof Error ? error.message : 'Failed to load entries',
-        isLoading: false 
-      });
+      console.error('Failed to load today entries:', error);
+      set({ isLoading: false });
     }
   },
 
-  loadTodayEntries: async (babyId: string) => {
-    const today = new Date();
-    await get().loadEntries(babyId, today);
-  },
-
-  addEntry: async (entryData) => {
-    set({ isLoading: true, error: null });
+  addEntry: async (entry) => {
     try {
-      const entry = await db.createEntry(entryData);
-      
-      set(state => {
-        const newEntries = [...state.entries, entry].sort((a, b) => 
-          a.timestamp.getTime() - b.timestamp.getTime()
-        );
-        
-        const isToday = entry.timestamp.toDateString() === new Date().toDateString();
-        const newTodayEntries = isToday 
-          ? [...state.todayEntries, entry].sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime())
-          : state.todayEntries;
-
-        return {
-          entries: newEntries,
-          todayEntries: newTodayEntries,
-          lastEntry: entry,
-          isLoading: false
-        };
-      });
-      
-      return entry;
+      const newEntry = await dataService.createEntry(entry);
+      const { todayEntries } = get();
+      set({ todayEntries: [newEntry, ...todayEntries] });
     } catch (error) {
-      set({ 
-        error: error instanceof Error ? error.message : 'Failed to add entry',
-        isLoading: false 
-      });
-      throw error;
+      console.error('Failed to add entry:', error);
+      throw error; // Re-throw so components can handle the error
     }
   },
 
-  updateEntry: async (id, updates) => {
-    set({ isLoading: true, error: null });
-    try {
-      await db.updateEntry(id, updates);
-      
-      set(state => ({
-        entries: state.entries.map(entry => 
-          entry.id === id ? { ...entry, ...updates } as Entry : entry
-        ),
-        todayEntries: state.todayEntries.map(entry => 
-          entry.id === id ? { ...entry, ...updates } as Entry : entry
-        ),
-        isLoading: false
-      }));
-    } catch (error) {
-      set({ 
-        error: error instanceof Error ? error.message : 'Failed to update entry',
-        isLoading: false 
-      });
-      throw error;
-    }
-  },
+  getStats: (babyId, date) => {
+    const { todayEntries } = get();
+    const entriesForToday = todayEntries.filter(entry => entry.babyId === babyId);
 
-  deleteEntry: async (id) => {
-    set({ isLoading: true, error: null });
-    try {
-      await db.deleteEntry(id);
-      
-      set(state => ({
-        entries: state.entries.filter(entry => entry.id !== id),
-        todayEntries: state.todayEntries.filter(entry => entry.id !== id),
-        isLoading: false
-      }));
-    } catch (error) {
-      set({ 
-        error: error instanceof Error ? error.message : 'Failed to delete entry',
-        isLoading: false 
-      });
-      throw error;
-    }
-  },
-
-  getStats: (babyId: string, date = new Date()): DashboardStats => {
-    const { entries } = get();
-    const targetDate = date.toDateString();
-    const dayEntries = entries.filter(entry => 
-      entry.babyId === babyId && entry.timestamp.toDateString() === targetDate
-    );
-
-    const feedEntries = dayEntries.filter(entry => entry.type === 'feed');
-    const sleepEntries = dayEntries.filter(entry => entry.type === 'sleep');
-    const diaperEntries = dayEntries.filter(entry => entry.type === 'diaper');
-
-    const totalSleep = sleepEntries.reduce((total, entry) => {
-      if (entry.type === 'sleep' && entry.payload.duration) {
-        return total + entry.payload.duration;
-      }
-      return total;
-    }, 0);
+    const lastFeed = entriesForToday.filter(entry => entry.type === 'feed').slice(-1)[0]?.timestamp || null;
+    const lastDiaper = entriesForToday.filter(entry => entry.type === 'diaper').slice(-1)[0]?.timestamp || null;
+    const lastSleep = entriesForToday.filter(entry => entry.type === 'sleep').slice(-1)[0]?.timestamp || null;
 
     return {
-      totalFeeds: feedEntries.length,
-      totalSleep,
-      lastFeed: feedEntries.length > 0 ? feedEntries[feedEntries.length - 1].timestamp : undefined,
-      lastSleep: sleepEntries.length > 0 ? sleepEntries[sleepEntries.length - 1].timestamp : undefined,
-      lastDiaper: diaperEntries.length > 0 ? diaperEntries[diaperEntries.length - 1].timestamp : undefined,
+      lastFeed,
+      lastDiaper,
+      lastSleep,
     };
   },
 
-  repeatLastEntry: async () => {
-    const { lastEntry } = get();
-    if (!lastEntry) return null;
-
-    const newEntry: CreateEntry = {
-      ...lastEntry,
-      timestamp: new Date(),
-    };
-
-    return await get().addEntry(newEntry);
+  selectEntry: (id) => {
+    set({ selectedEntryId: id });
   },
 
-  endSleep: async (sleepEntryId: string) => {
-    const { entries } = get();
-    const sleepEntry = entries.find(entry => entry.id === sleepEntryId);
-    
-    if (!sleepEntry || sleepEntry.type !== 'sleep') {
-      throw new Error('Sleep entry not found');
-    }
+  getSelectedEntry: (entries) => {
+    const { selectedEntryId } = get();
+    return entries.find((entry) => entry.id === selectedEntryId) || null;
+  },
 
-    const endTime = new Date();
-    const duration = Math.round((endTime.getTime() - sleepEntry.payload.startTime.getTime()) / (1000 * 60));
+  getEntriesByType: (entries, type) => {
+    return entries.filter((entry) => entry.type === type);
+  },
 
-    await get().updateEntry(sleepEntryId, {
-      payload: {
-        ...sleepEntry.payload,
-        endTime,
-        duration,
-      },
+  getLastEntry: (entries, type) => {
+    const filteredEntries = type ? entries.filter((entry) => entry.type === type) : entries;
+    return filteredEntries.length > 0 ? filteredEntries[0] : null;
+  },
+
+  getEntriesForDate: (entries, date) => {
+    const targetDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    return entries.filter((entry) => {
+      const entryDate = new Date(
+        entry.timestamp.getFullYear(),
+        entry.timestamp.getMonth(),
+        entry.timestamp.getDate()
+      );
+      return entryDate.getTime() === targetDate.getTime();
     });
   },
-})); 
+}));

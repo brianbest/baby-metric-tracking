@@ -23,7 +23,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <a href="#main-content" className="skip-link">
         Skip to main content
       </a>
-      
+
       <main id="main-content" className="layout__main">
         {children}
       </main>
@@ -49,6 +49,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </nav>
     </div>
   );
-}
+};
 
-export default Layout; 
+export default Layout;

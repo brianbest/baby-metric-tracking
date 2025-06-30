@@ -13,11 +13,13 @@ The Baby Metric Tracker helps new parents and caregivers collaboratively track a
 ## ✨ Key Features
 
 ### Core Metrics
+
 - **Feeding**: Track volume, source (breast/bottle/solid), and timing
 - **Diaper Changes**: Log type (wet/dirty/mixed) with optional notes
 - **Sleep**: Start/end times with automatic duration calculation
 
 ### User Experience
+
 - **Quick-Add Widgets**: Pre-set buttons ("+60 ml bottle", "Start nap")
 - **Repeat Last**: Clone recent entries for rapid re-logging
 - **Daily Dashboard**: 24-hour timeline with colored stacked bars
@@ -25,17 +27,18 @@ The Baby Metric Tracker helps new parents and caregivers collaboratively track a
 - **Bilingual**: Full English and Simplified Chinese support
 
 ### Data Ownership
+
 - Easy export to JSON/CSV/PDF
 - No vendor lock-in
 - WCAG 2.2 AA accessibility compliant
 
 ## 🚀 Development Phases
 
-| Phase | Timeline | Scope | Exit Criteria |
-|-------|----------|-------|---------------|
-| **P1 - Browser POC** | 2 weeks | LocalStorage SPA, offline-first | Family trial: 1 week logging, zero data loss |
-| **P2 - Cloud MVP** | 4 weeks | Auth, Postgres, real-time sync | 30-day trial, ≥5 entries/day, <1% errors |
-| **P3 - Mobile App** | 3 weeks | React Native, push notifications | Side-loaded builds, ≥4.5/5 rating |
+| Phase                | Timeline | Scope                            | Exit Criteria                                |
+| -------------------- | -------- | -------------------------------- | -------------------------------------------- |
+| **P1 - Browser POC** | 2 weeks  | LocalStorage SPA, offline-first  | Family trial: 1 week logging, zero data loss |
+| **P2 - Cloud MVP**   | 4 weeks  | Auth, Postgres, real-time sync   | 30-day trial, ≥5 entries/day, <1% errors     |
+| **P3 - Mobile App**  | 3 weeks  | React Native, push notifications | Side-loaded builds, ≥4.5/5 rating            |
 
 ## 🛠️ Tech Stack
 
@@ -49,10 +52,12 @@ The Baby Metric Tracker helps new parents and caregivers collaboratively track a
 ## 🚦 Getting Started
 
 ### Prerequisites
+
 - Node.js 18+
 - pnpm (recommended) or npm
 
 ### Quick Start
+
 ```bash
 # Clone the repository
 git clone https://github.com/brianbest/baby-metric-tracking.git
@@ -66,6 +71,7 @@ pnpm dev
 ```
 
 This will spin up:
+
 - Vite dev server (web app)
 - Local Supabase instance
 - Storybook (component library)
