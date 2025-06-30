@@ -1,9 +1,7 @@
 {
-  "version": 2,
-  "buildCommand": "cd packages/web && pnpm build:vercel",
+  "buildCommand": "npm run build:web",
   "outputDirectory": "packages/web/dist",
-  "installCommand": "pnpm install",
-  "framework": "vite",
+  "installCommand": "npm install -g pnpm@latest && pnpm install",
   "rewrites": [
     {
       "source": "/(.*)",
