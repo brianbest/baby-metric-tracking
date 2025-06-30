@@ -12,7 +12,7 @@ export const queryKeys = {
 // Baby hooks
 export function useBabies() {
   const { user } = useAuthStore();
-  
+
   return useQuery({
     queryKey: queryKeys.babies,
     queryFn: () => dataService.getBabies(),
@@ -23,9 +23,9 @@ export function useBabies() {
 
 export function useCreateBaby() {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
-    mutationFn: (baby: Omit<Baby, 'id' | 'createdAt' | 'updatedAt'>) => 
+    mutationFn: (baby: Omit<Baby, 'id' | 'createdAt' | 'updatedAt'>) =>
       dataService.createBaby(baby),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.babies });
@@ -38,9 +38,9 @@ export function useCreateBaby() {
 
 export function useUpdateBaby() {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
-    mutationFn: ({ id, updates }: { id: string; updates: Partial<Baby> }) => 
+    mutationFn: ({ id, updates }: { id: string; updates: Partial<Baby> }) =>
       dataService.updateBaby(id, updates),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.babies });
@@ -53,7 +53,7 @@ export function useUpdateBaby() {
 
 export function useDeleteBaby() {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: (id: string) => dataService.deleteBaby(id),
     onSuccess: () => {
@@ -68,7 +68,7 @@ export function useDeleteBaby() {
 // Entry hooks
 export function useEntries(babyId: string, limit?: number) {
   const { user } = useAuthStore();
-  
+
   return useQuery({
     queryKey: queryKeys.entries(babyId),
     queryFn: () => dataService.getEntries(babyId, limit),
@@ -79,7 +79,7 @@ export function useEntries(babyId: string, limit?: number) {
 
 export function useCreateEntry() {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: (entry: CreateEntry) => dataService.createEntry(entry),
     onMutate: async (newEntry) => {
@@ -105,10 +105,7 @@ export function useCreateEntry() {
     onError: (err, newEntry, context) => {
       // If the mutation fails, use the context returned from onMutate to roll back
       if (context?.previousEntries) {
-        queryClient.setQueryData(
-          queryKeys.entries(context.babyId),
-          context.previousEntries
-        );
+        queryClient.setQueryData(queryKeys.entries(context.babyId), context.previousEntries);
       }
     },
     onSettled: (data, error, variables) => {
@@ -120,14 +117,14 @@ export function useCreateEntry() {
 
 export function useUpdateEntry() {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
-    mutationFn: ({ id, updates }: { id: string; updates: Partial<Entry> }) => 
+    mutationFn: ({ id, updates }: { id: string; updates: Partial<Entry> }) =>
       dataService.updateEntry(id, updates),
     onSuccess: (updatedEntry) => {
       // Update the specific entry in all relevant queries
       queryClient.setQueryData(queryKeys.entries(updatedEntry.babyId), (old: Entry[] = []) =>
-        old.map(entry => entry.id === updatedEntry.id ? updatedEntry : entry)
+        old.map((entry) => (entry.id === updatedEntry.id ? updatedEntry : entry))
       );
     },
     onError: (error) => {
@@ -138,22 +135,22 @@ export function useUpdateEntry() {
 
 export function useDeleteEntry() {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: (id: string) => dataService.deleteEntry(id),
     onMutate: async (entryId) => {
       // Find which baby this entry belongs to
       const queriesData = queryClient.getQueriesData({ queryKey: ['entries'] });
       let babyId: string | null = null;
-      
+
       for (const [queryKey, data] of queriesData) {
         const entries = data as Entry[] | undefined;
-        if (entries?.some(entry => entry.id === entryId)) {
+        if (entries?.some((entry) => entry.id === entryId)) {
           babyId = (queryKey as string[])[1];
           break;
         }
       }
-      
+
       if (!babyId) return;
 
       // Cancel any outgoing refetches
@@ -164,7 +161,7 @@ export function useDeleteEntry() {
 
       // Optimistically remove the entry
       queryClient.setQueryData(queryKeys.entries(babyId), (old: Entry[] = []) =>
-        old.filter(entry => entry.id !== entryId)
+        old.filter((entry) => entry.id !== entryId)
       );
 
       return { previousEntries, babyId };
@@ -172,10 +169,7 @@ export function useDeleteEntry() {
     onError: (err, entryId, context) => {
       // If the mutation fails, use the context returned from onMutate to roll back
       if (context?.previousEntries && context.babyId) {
-        queryClient.setQueryData(
-          queryKeys.entries(context.babyId),
-          context.previousEntries
-        );
+        queryClient.setQueryData(queryKeys.entries(context.babyId), context.previousEntries);
       }
     },
     onSettled: (data, error, variables, context) => {
@@ -190,7 +184,7 @@ export function useDeleteEntry() {
 // Sync hook
 export function useDataSync() {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: () => dataService.syncData(),
     onSuccess: () => {

@@ -1,6 +1,12 @@
 import type { User } from '@supabase/supabase-js';
 import { supabase } from './supabase';
-import { db, entryToDBEntry, dbEntryToEntry, babyToDBBaby, dbBabyToBaby } from '@baby-tracker/shared/db';
+import {
+  db,
+  entryToDBEntry,
+  dbEntryToEntry,
+  babyToDBBaby,
+  dbBabyToBaby,
+} from '@baby-tracker/shared/db';
 import type { Baby, Entry, CreateEntry } from '@baby-tracker/shared';
 
 export interface DataService {
@@ -47,10 +53,7 @@ class HybridDataService implements DataService {
   async getBabies(): Promise<Baby[]> {
     if (this.getConnectionStatus()) {
       try {
-        const { data, error } = await supabase
-          .from('baby')
-          .select('*')
-          .is('deleted_at', null);
+        const { data, error } = await supabase.from('baby').select('*').is('deleted_at', null);
 
         if (error) throw error;
 
@@ -96,12 +99,10 @@ class HybridDataService implements DataService {
         if (error) throw error;
 
         // Also create caregiver relationship
-        await supabase
-          .from('caregiver_relationship')
-          .insert({
-            caregiver_id: this.user!.id,
-            baby_id: newBaby.id,
-          });
+        await supabase.from('caregiver_relationship').insert({
+          caregiver_id: this.user!.id,
+          baby_id: newBaby.id,
+        });
 
         return {
           id: data.id,
@@ -194,15 +195,18 @@ class HybridDataService implements DataService {
 
         if (error) throw error;
 
-        return data.map((entry) => ({
-          id: entry.id,
-          babyId: entry.baby_id,
-          type: entry.type as 'feed' | 'diaper' | 'sleep',
-          timestamp: new Date(entry.created_at),
-          createdAt: new Date(entry.created_at),
-          createdBy: entry.created_by || undefined,
-          payload: entry.payload_json,
-        } as Entry));
+        return data.map(
+          (entry) =>
+            ({
+              id: entry.id,
+              babyId: entry.baby_id,
+              type: entry.type as 'feed' | 'diaper' | 'sleep',
+              timestamp: new Date(entry.created_at),
+              createdAt: new Date(entry.created_at),
+              createdBy: entry.created_by || undefined,
+              payload: entry.payload_json,
+            }) as Entry
+        );
       } catch (error) {
         console.warn('Failed to fetch entries from Supabase, falling back to local:', error);
       }
@@ -215,7 +219,7 @@ class HybridDataService implements DataService {
       .reverse()
       .limit(limit)
       .toArray();
-    
+
     return entries.map(dbEntryToEntry);
   }
 
@@ -323,7 +327,7 @@ class HybridDataService implements DataService {
     try {
       // Sync babies
       await this.syncBabies();
-      
+
       // Sync entries for each baby
       const babies = await this.getBabies();
       for (const baby of babies) {
@@ -337,28 +341,24 @@ class HybridDataService implements DataService {
   private async syncBabies(): Promise<void> {
     // Get local babies that might not be synced
     const localBabies = await db.babies.toArray();
-    
+
     for (const localBaby of localBabies) {
       try {
-        const { error } = await supabase
-          .from('baby')
-          .upsert({
-            id: localBaby.id,
-            name: localBaby.name,
-            birth_date: localBaby.birthDate,
-            preferred_units: localBaby.preferredUnits,
-            created_at: localBaby.createdAt,
-            updated_at: localBaby.updatedAt,
-          });
+        const { error } = await supabase.from('baby').upsert({
+          id: localBaby.id,
+          name: localBaby.name,
+          birth_date: localBaby.birthDate,
+          preferred_units: localBaby.preferredUnits,
+          created_at: localBaby.createdAt,
+          updated_at: localBaby.updatedAt,
+        });
 
         if (!error) {
           // Also ensure caregiver relationship exists
-          await supabase
-            .from('caregiver_relationship')
-            .upsert({
-              caregiver_id: this.user!.id,
-              baby_id: localBaby.id,
-            });
+          await supabase.from('caregiver_relationship').upsert({
+            caregiver_id: this.user!.id,
+            baby_id: localBaby.id,
+          });
         }
       } catch (error) {
         console.warn('Failed to sync baby:', localBaby.id, error);
@@ -368,23 +368,18 @@ class HybridDataService implements DataService {
 
   private async syncEntries(babyId: string): Promise<void> {
     // Get local entries that might not be synced
-    const localEntries = await db.entries
-      .where('babyId')
-      .equals(babyId)
-      .toArray();
-    
+    const localEntries = await db.entries.where('babyId').equals(babyId).toArray();
+
     for (const localEntry of localEntries) {
       try {
-        await supabase
-          .from('entry')
-          .upsert({
-            id: localEntry.id,
-            baby_id: localEntry.babyId,
-            type: localEntry.type,
-            payload_json: JSON.parse(localEntry.payloadJson),
-            created_at: localEntry.createdAt,
-            created_by: this.user!.id,
-          });
+        await supabase.from('entry').upsert({
+          id: localEntry.id,
+          baby_id: localEntry.babyId,
+          type: localEntry.type,
+          payload_json: JSON.parse(localEntry.payloadJson),
+          created_at: localEntry.createdAt,
+          created_by: this.user!.id,
+        });
       } catch (error) {
         console.warn('Failed to sync entry:', localEntry.id, error);
       }

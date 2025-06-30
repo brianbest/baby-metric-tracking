@@ -15,25 +15,23 @@ export function PresenceIndicator({ babyId }: PresenceIndicatorProps) {
     return null;
   }
 
-  const otherUsers = onlineUsers.filter(user => user.user_id !== user.user_id); // Filter out current user
+  const otherUsers = onlineUsers.filter((user) => user.user_id !== user.user_id); // Filter out current user
 
   return (
     <div className="presence-indicator">
       <div className="connection-status">
-        <div 
+        <div
           className={`connection-dot ${connectionStatus}`}
           title={t(`realtime.status.${connectionStatus}`)}
         />
       </div>
-      
+
       {otherUsers.length > 0 && (
         <div className="online-users">
-          <span className="online-users-count">
-            {otherUsers.length}
-          </span>
+          <span className="online-users-count">{otherUsers.length}</span>
           <div className="online-users-list">
             {otherUsers.slice(0, 3).map((user, index) => (
-              <div 
+              <div
                 key={user.user_id || index}
                 className="user-avatar"
                 title={`${user.user_email || 'Caregiver'} is online`}
@@ -42,9 +40,7 @@ export function PresenceIndicator({ babyId }: PresenceIndicatorProps) {
               </div>
             ))}
             {otherUsers.length > 3 && (
-              <div className="user-avatar more">
-                +{otherUsers.length - 3}
-              </div>
+              <div className="user-avatar more">+{otherUsers.length - 3}</div>
             )}
           </div>
         </div>

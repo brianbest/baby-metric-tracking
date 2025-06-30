@@ -24,12 +24,7 @@ const BabyForm: React.FC<BabyFormProps> = ({ onSubmit, onCancel }) => {
     <form onSubmit={handleSubmit}>
       <div>
         <label>{t('baby.name')}</label>
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
+        <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
       </div>
 
       <div>
@@ -54,10 +49,11 @@ const BabyForm: React.FC<BabyFormProps> = ({ onSubmit, onCancel }) => {
       </div>
 
       <button type="submit">{t('common.submit')}</button>
-      <button type="button" onClick={onCancel}>{t('common.cancel')}</button>
+      <button type="button" onClick={onCancel}>
+        {t('common.cancel')}
+      </button>
     </form>
   );
 };
 
 export default BabyForm;
-

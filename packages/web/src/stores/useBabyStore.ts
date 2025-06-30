@@ -8,7 +8,7 @@ interface BabyState {
   selectedBabyId: string | null;
   isLoading: boolean;
   error: string | null;
-  
+
   // Actions
   loadBabies: () => Promise<void>;
   createBaby: (baby: Omit<Baby, 'id' | 'createdAt' | 'updatedAt'>) => Promise<void>;
@@ -31,9 +31,9 @@ export const useBabyStore = create<BabyState>()(
           const babies = await dataService.getBabies();
           set({ babies, isLoading: false });
         } catch (error) {
-          set({ 
+          set({
             error: error instanceof Error ? error.message : 'Failed to load babies',
-            isLoading: false 
+            isLoading: false,
           });
         }
       },
@@ -43,15 +43,15 @@ export const useBabyStore = create<BabyState>()(
         try {
           const newBaby = await dataService.createBaby(baby);
           const { babies } = get();
-          set({ 
-            babies: [...babies, newBaby], 
+          set({
+            babies: [...babies, newBaby],
             isLoading: false,
-            selectedBabyId: newBaby.id // Auto-select the new baby
+            selectedBabyId: newBaby.id, // Auto-select the new baby
           });
         } catch (error) {
-          set({ 
+          set({
             error: error instanceof Error ? error.message : 'Failed to create baby',
-            isLoading: false 
+            isLoading: false,
           });
         }
       },
@@ -72,9 +72,9 @@ export const useBabyStore = create<BabyState>()(
     }),
     {
       name: 'baby-storage',
-      partialize: (state) => ({ 
+      partialize: (state) => ({
         selectedBabyId: state.selectedBabyId,
-        babies: state.babies 
+        babies: state.babies,
       }),
     }
   )

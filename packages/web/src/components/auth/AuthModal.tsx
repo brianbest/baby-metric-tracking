@@ -12,13 +12,13 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
   const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [step, setStep] = useState<'email' | 'check-email'>('email');
-  
+
   const { signInWithEmail, signInWithOAuth, loading, error, clearError } = useAuthStore();
 
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim()) return;
-    
+
     await signInWithEmail(email);
     if (!useAuthStore.getState().error) {
       setStep('check-email');
@@ -41,11 +41,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
   return (
     <div className="auth-modal-overlay" onClick={handleClose}>
       <div className="auth-modal" onClick={(e) => e.stopPropagation()}>
-        <button 
-          className="auth-modal-close" 
-          onClick={handleClose}
-          aria-label={t('common.close')}
-        >
+        <button className="auth-modal-close" onClick={handleClose} aria-label={t('common.close')}>
           ×
         </button>
 
@@ -56,9 +52,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
 
           {step === 'email' && (
             <>
-              <p className="auth-modal-description">
-                {t('auth.signInDescription')}
-              </p>
+              <p className="auth-modal-description">{t('auth.signInDescription')}</p>
 
               <form onSubmit={handleEmailSubmit} className="auth-form">
                 <div className="form-group">
@@ -84,8 +78,8 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                   </div>
                 )}
 
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   className="btn btn-primary btn-full-width"
                   disabled={loading || !email.trim()}
                 >
@@ -123,13 +117,8 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
             <div className="check-email-content">
               <div className="check-email-icon">📧</div>
               <p>{t('auth.checkEmailMessage', { email })}</p>
-              <p className="check-email-note">
-                {t('auth.checkEmailNote')}
-              </p>
-              <button 
-                onClick={() => setStep('email')} 
-                className="btn btn-secondary"
-              >
+              <p className="check-email-note">{t('auth.checkEmailNote')}</p>
+              <button onClick={() => setStep('email')} className="btn btn-secondary">
                 {t('auth.tryDifferentEmail')}
               </button>
             </div>

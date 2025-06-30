@@ -116,7 +116,7 @@ export const BabyModal: React.FC<BabyModalProps> = ({ isOpen, onClose }) => {
         </button>
 
         <h2 id="modal-title">{t('baby.addBaby')}</h2>
-        
+
         <BabyForm onSubmit={handleSubmit} onCancel={onClose} />
       </div>
     </div>,

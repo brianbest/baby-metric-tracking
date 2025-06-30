@@ -9,7 +9,7 @@ export function AuthCallback() {
     const handleAuthCallback = async () => {
       try {
         const { data, error } = await supabase.auth.getSession();
-        
+
         if (error) {
           console.error('Auth callback error:', error);
           navigate('/?error=' + encodeURIComponent(error.message));
@@ -31,14 +31,16 @@ export function AuthCallback() {
   }, [navigate]);
 
   return (
-    <div style={{ 
-      display: 'flex', 
-      alignItems: 'center', 
-      justifyContent: 'center', 
-      height: '100vh',
-      fontSize: '1.2rem',
-      color: 'var(--text-secondary)' 
-    }}>
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100vh',
+        fontSize: '1.2rem',
+        color: 'var(--text-secondary)',
+      }}
+    >
       Completing sign in...
     </div>
   );
