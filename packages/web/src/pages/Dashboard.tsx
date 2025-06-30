@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { QuickActionGrid } from '../components/common';
-import { TimelineChart } from '../components/charts';
-import { EntryModal } from '../components/forms';
 import { useBabyStore, useEntryStore, useSettingsStore } from '../stores';
 import { format } from 'date-fns';
 import './Dashboard.css';
 
 const Dashboard: React.FC = () => {
   const { t } = useTranslation();
-  const [selectedDate, setSelectedDate] = useState(new Date());
-
+  const [selectedDate] = useState(new Date());
+  
   const { babies, getSelectedBaby, loadBabies } = useBabyStore();
-  const { todayEntries, loadTodayEntries, getStats, isLoading: entriesLoading } = useEntryStore();
+  const { 
+    loadTodayEntries, 
+    getStats
+  } = useEntryStore();
   const { initialize } = useSettingsStore();
 
   const activeBaby = getSelectedBaby(babies);
@@ -30,16 +31,6 @@ const Dashboard: React.FC = () => {
   }, [activeBaby, loadTodayEntries]);
 
   const stats = activeBaby ? getStats(activeBaby.id, selectedDate) : null;
-
-  const formatSleepDuration = (minutes: number) => {
-    const hours = Math.floor(minutes / 60);
-    const mins = minutes % 60;
-
-    if (hours > 0) {
-      return `${hours}h ${mins}m`;
-    }
-    return `${mins}m`;
-  };
 
   const formatTimeAgo = (date: Date) => {
     const now = new Date();

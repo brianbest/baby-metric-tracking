@@ -1,5 +1,4 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
 import './Layout.css';
 
@@ -8,7 +7,6 @@ interface LayoutProps {
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
-  const { t } = useTranslation();
   const location = useLocation();
 
   const navItems = [
