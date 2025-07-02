@@ -54,7 +54,7 @@ The Baby Metric Tracker helps new parents and caregivers collaboratively track a
 ### Prerequisites
 
 - Node.js 18+
-- pnpm (recommended) or npm
+- npm
 
 ### Quick Start
 
@@ -64,10 +64,10 @@ git clone https://github.com/brianbest/baby-metric-tracking.git
 cd baby-metric-tracking
 
 # Install dependencies
-pnpm install
+npm install
 
 # Start development environment
-pnpm dev
+npm run dev
 ```
 
 This will spin up:

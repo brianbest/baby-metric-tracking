@@ -4,10 +4,13 @@
   "description": "Zero-friction baby metrics tracking for families",
   "private": true,
   "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "dev": "turbo run dev --parallel",
     "build": "turbo run build",
-    "build:web": "cd packages/web && pnpm run build:vercel",
+    "build:web": "cd packages/web && npm run build:vercel",
     "test": "turbo run test",
     "lint": "turbo run lint",
     "format": "prettier --write .",

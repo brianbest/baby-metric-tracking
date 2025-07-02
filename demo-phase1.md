@@ -22,20 +22,20 @@ This document demonstrates that all Phase 1 requirements have been successfully 
 
 ```bash
 # Install dependencies
-pnpm install
+npm install
 
 # Start development server
-pnpm dev
+npm run dev
 # Opens: http://localhost:5173
 
 # Run tests
-pnpm test
+npm test
 
 # Build for production
-pnpm build
+npm run build
 
 # View Storybook component library
-pnpm storybook
+npm run storybook
 # Opens: http://localhost:6006
 ```
 
