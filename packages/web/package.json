@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@analytics/segment": "^1.1.4",
-    "@baby-tracker/shared": "*",
+    "@baby-tracker/shared": "file:../shared",
     "@supabase/auth-helpers-react": "^0.5.0",
     "@supabase/supabase-js": "^2.50.2",
     "@tanstack/query-sync-storage-persister": "^5.17.9",
