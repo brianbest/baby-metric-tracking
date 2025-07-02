@@ -1,7 +1,9 @@
 {
   "buildCommand": "npm run build:web",
   "outputDirectory": "packages/web/dist",
-  "installCommand": "npm install -g pnpm@latest && pnpm install",
+  "installCommand": "npm install -g pnpm@8.15.6 && pnpm install --frozen-lockfile",
+  "framework": "vite",
+  "nodeVersion": "18.x",
   "rewrites": [
     {
       "source": "/(.*)",
