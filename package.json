@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "turbo run dev --parallel",
     "build": "turbo run build",
-    "build:web": "npm run build && cd packages/web && npm run build:vercel",
+    "build:web": "turbo run build --filter=@baby-tracker/shared && cd packages/web && npm run build:vercel",
     "test": "turbo run test",
     "lint": "turbo run lint",
     "format": "prettier --write .",
