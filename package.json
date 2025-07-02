@@ -16,7 +16,14 @@
     "format": "prettier --write .",
     "storybook": "turbo run storybook",
     "storybook:test": "turbo run storybook:test",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "db:link": "cd supabase && supabase link",
+    "db:push": "cd supabase && supabase db push",
+    "db:seed": "cd supabase && supabase db seed",
+    "db:deploy": "npm run db:push && npm run db:seed",
+    "db:reset": "cd supabase && supabase db reset",
+    "db:status": "cd supabase && supabase status",
+    "db:verify": "node scripts/verify-production.js"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",
